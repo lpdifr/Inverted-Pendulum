@@ -13,15 +13,16 @@ from units_module import Units , Unit
 pygame.init()
 
 
+# Inicialization SaveLoadGen
 slg = SaveLoadGen()
-screen = pygame.display.set_mode((1700, 900))
 
+# Setting up screen
+screen = pygame.display.set_mode((1700, 900))
 pygame.display.set_caption("Inverted Pendulum")
 
+
+
 # Creating Enviroment
-
-
-
 class Environment:
     def __init__(self):
         self.gravity = 900# Gravity pixel per second^2
@@ -36,37 +37,52 @@ class Environment:
 
 
 
-#class AIWarden
+
 
 # MainLoop variables
 running = True
 clock = pygame.time.Clock()
 
+
+
 # Inicialization Systems
 world = Environment()
-# Best unit : [-9.117011746541309, 4.569619100723747, -7.344724531657647, -5.944618933983124]
 
+
+# Best unit : [-9.117011746541309, 4.569619100723747, -7.344724531657647, -5.944618933983124]
 units = Units(world)
 units.CreateUnits(1 , slg.LoadLastGen()['weights'] , random_change=(-1.0 , 1.0))#type:ignore
+
+# Resrt flag
 if_reset = 0
 
+# Timer when reseting simulation
 max_frame = 300000
+
+
 while running:
+    # Timer update
     frame_counter = pygame.time.get_ticks()
     world.frame_counter = frame_counter
+
+    # Event check
     for event in pygame.event.get():
+
         if event.type == pygame.QUIT:
             running = False
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                pass
-                #print("dasdd")
-                #units.NewGen()
+
+    # If 5-minutes had been past reseting simulation 
     if frame_counter >= max_frame:
         units.NewGen()
         max_frame += 300000
+
+
     screen.fill((0 , 0 , 0))
+
+
     world.dt = clock.tick(60)/1000#type:ignore
+
+
     units.SimulationStep()
 
 
@@ -75,12 +91,3 @@ while running:
 
 print(f"Generations created: {units.gens_created}")
 sys.exit()
-"""        # Manual control
-        keys = pygame.key.get_pressed()
-        
-        if keys[pygame.K_a]:
-            self.cart.F -= 1500#type:ignore
-        if keys[pygame.K_d]:
-            self.cart.F += 1500#type:ignore
-
-"""

@@ -45,8 +45,13 @@ class Units:
     def CreateUnits(self , quantity , weights , random_change:tuple = (-0.1 , 0.1)):
         # Reduce or increase weigths coeficient
         acof , bcof = random_change
+
+        # Quantity of AI's
         self.quantity = quantity
+
+        # Simulation start flag
         self.if_simulation = 1
+        
         # Creating n quantity Units
         for unit_creating in range(quantity):
 

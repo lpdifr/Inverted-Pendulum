@@ -27,6 +27,7 @@ class Simulation:
             self.if_balance_score = 0
             self.trying_to_balance = 0
             self.increase_score_timer = 0
+            self.time_to_balance_pole = 500
             #self.in_top_time = 0
 
             # Inicialization simulation to have connection
@@ -43,7 +44,7 @@ class Simulation:
                     pass
                 else:
                     self.trying_to_balance = 1
-                    self.increase_score_timer = self.world.frame_counter + 100
+                    self.increase_score_timer = self.world.frame_counter + self.time_to_balance_pole
                 if self.pole.angle_speed < 0 and self.cart.a > 0 or self.pole.angle_speed > 0 and self.cart.a < 0:
                     self.score += 1
                 # Adding time 
@@ -59,6 +60,7 @@ class Simulation:
 
                     # Give reward with buff
                     self.score += 1 + 1 - abs(angle)/ 100
+                    self.increase_score_timer = self.world.frame_counter + self.time_to_balance_pole
             else:
                 self.trying_to_balance = 0
                 #print("Reseting timer")
@@ -107,7 +109,7 @@ class Simulation:
         self.cart.mainpole = self.pole#type:ignore
 
         #Reseting score
-        self.score = self.Score(self.pole , self.cart)
+        self.score = self.Score(self.pole , self.cart , self.world)
 
         #Assing simulation to score
         self.score.simulation = self #type:ignore
