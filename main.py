@@ -83,7 +83,7 @@ while running:
 
 
     world.dt = clock.tick(60)/1000#type:ignore
-
+#problem
 
     units.SimulationStep()
 
