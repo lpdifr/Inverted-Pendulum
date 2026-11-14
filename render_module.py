@@ -44,7 +44,7 @@ class render:
         def pole_line(self , x0 , y0 , x1 , y1):
 
             glColor3f(0, 1, 0)
-            glLineWidth(7)
+
 
 
             glVertex2f(x0, y0)

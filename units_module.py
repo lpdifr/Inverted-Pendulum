@@ -80,21 +80,32 @@ class Units:
         for unit in self.units:
             unit.simulation.step()
         # Drawing Cart
+        a = 0
         glBegin(GL_QUADS)
         for unit in self.units:
+            if a == 101:
+                break
             self.render.cart(unit.simulation.cart.cartx , unit.simulation.cart.carty)
+            a += 1
         glEnd()
-        
+        a = 0
         for unit in self.units:
+            if a == 101:
+                break
             self.render.weight(unit.simulation.pole.x1 , unit.simulation.pole.y1)
+            a += 1
         glBegin(GL_LINES)
+        a = 0
         for unit in self.units:
+            if a == 101:
+                break
             self.render.pole_line(
                 unit.simulation.pole.polepointx,
                 unit.simulation.pole.polepointy,
                 unit.simulation.pole.x1,
                 unit.simulation.pole.y1
             )
+            a += 1
         glEnd()
 
             

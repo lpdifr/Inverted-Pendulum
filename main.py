@@ -62,7 +62,7 @@ world = Environment()
 
 # Best unit : [-9.117011746541309, 4.569619100723747, -7.344724531657647, -5.944618933983124]
 units = Units(world)
-units.CreateUnits(1000 , slg.LoadLastGen()['weights'] , random_change=(-1.0 , 1.0))#type:ignore
+units.CreateUnits(10000 , slg.LoadLastGen()['weights'] , random_change=(-10.0 , 10.0))#type:ignore
 
 # Resrt flag
 if_reset = 0
