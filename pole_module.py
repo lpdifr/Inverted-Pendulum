@@ -13,10 +13,11 @@ class Pole:
         # Setting Angle and Lenght of Pole
         self.angle_of_pole = pole_angle
         self.L = pole_length
+        
 
         # Creating varibles of end of pole
         self.x1 , self.y1 = 0 , 0
-
+        self.delta_angle_speed = 0
         # Setting phisics of pole
         self.M = mass_of_weight
 
@@ -30,7 +31,10 @@ class Pole:
     # Calculate motion phisics 
     def PhisicsCalculate(self):
         self.alpha_angle = (self.world.gravity*math.sin(self.angle_of_pole) - self.cart.a*math.cos(self.angle_of_pole))/self.L
+        old_angle_speed = self.angle_speed
         self.angle_speed = self.angle_speed + self.alpha_angle * self.world.dt
+        self.delta_angle_speed = self.angle_speed - old_angle_speed
+        print(self.delta_angle_speed)# Show delta
         self.angle_of_pole = self.angle_of_pole + self.angle_speed * self.world.dt
 
     # Drawing Pole weight , line , attachment point

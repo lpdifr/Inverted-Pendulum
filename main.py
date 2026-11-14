@@ -29,7 +29,7 @@ class Environment:
         self.dt = 0# Delta time
         self.b = 4# Environment resist another
         self.screen = screen
-
+        self.frame_counter = 0
 
 
 
@@ -47,12 +47,13 @@ world = Environment()
 # Best unit : [-9.117011746541309, 4.569619100723747, -7.344724531657647, -5.944618933983124]
 
 units = Units(world)
-units.CreateUnits(1000 , slg.LoadLastGen()['weights'] , random_change=(-1.0 , 1.0))#type:ignore
+units.CreateUnits(1 , slg.LoadLastGen()['weights'] , random_change=(-1.0 , 1.0))#type:ignore
 if_reset = 0
 
 max_frame = 300000
 while running:
     frame_counter = pygame.time.get_ticks()
+    world.frame_counter = frame_counter
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -70,7 +71,9 @@ while running:
 
 
     pygame.display.update()
-    
+
+
+print(f"Generations created: {units.gens_created}")
 sys.exit()
 """        # Manual control
         keys = pygame.key.get_pressed()

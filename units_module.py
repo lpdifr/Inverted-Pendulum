@@ -41,6 +41,7 @@ class Units:
         self.if_simulation = 0
         self.quantity = 0
         self.world = world
+        self.gens_created = 0
     def CreateUnits(self , quantity , weights , random_change:tuple = (-0.1 , 0.1)):
         # Reduce or increase weigths coeficient
         acof , bcof = random_change
@@ -83,6 +84,7 @@ class Units:
         self.CreateUnits(self.quantity , weights)
         if best_score > self.best_score:
             slg.SaveGen(weights)
+            self.gens_created += 1
 
 
         

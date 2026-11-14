@@ -15,17 +15,19 @@ default_font = pygame.font.Font(None, 42)
 class Simulation:
     # Creating subclass Score to reward AI
     class Score:
-        def __init__(self , pole , cart):
+        def __init__(self , pole , cart , world):
             # Creating score variable
             self.score = 0
 
             # Importing pole and cart to collect info and give rewards
             self.pole = pole
             self.cart = cart
-
+            self.world = world
             # Creating variables
             self.if_balance_score = 0
-            self.in_top_time = 0
+            self.trying_to_balance = 0
+            self.increase_score_timer = 0
+            #self.in_top_time = 0
 
             # Inicialization simulation to have connection
             self.simulation = None
@@ -37,14 +39,19 @@ class Simulation:
             radwraped = (self.pole.angle_of_pole+math.pi)%(2*math.pi)-math.pi
             radiansnormal = radwraped/math.pi
             if radiansnormal < 0.1 and radiansnormal > -0.1:
+                if self.trying_to_balance:
+                    pass
+                else:
+                    self.trying_to_balance = 1
+                    self.increase_score_timer = self.world.frame_counter + 100
                 if self.pole.angle_speed < 0 and self.cart.a > 0 or self.pole.angle_speed > 0 and self.cart.a < 0:
                     self.score += 1
                 # Adding time 
-                self.in_top_time += 1
+                #self.in_top_time += 1
                 #print("Time+")
 
                 # If timer is full then give reward
-                if self.in_top_time > 50:
+                if self.world.frame_counter > self.increase_score_timer:
                     #print("+Score")
 
                     # Stabilization angle
@@ -53,7 +60,7 @@ class Simulation:
                     # Give reward with buff
                     self.score += 1 + 1 - abs(angle)/ 100
             else:
-                self.in_top_time = 0
+                self.trying_to_balance = 0
                 #print("Reseting timer")
 
             #If cart is out of screen restart simulation
@@ -81,7 +88,7 @@ class Simulation:
 
 
         # Inicialization of Score system
-        self.score = self.Score(self.pole , self.cart)
+        self.score = self.Score(self.pole , self.cart , self.world)
         self.a = 0
 
     #Reseting simulation
