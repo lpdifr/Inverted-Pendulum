@@ -34,7 +34,7 @@ class Pole:
         old_angle_speed = self.angle_speed
         self.angle_speed = self.angle_speed + self.alpha_angle * self.world.dt
         self.delta_angle_speed = self.angle_speed - old_angle_speed
-        print(self.delta_angle_speed)# Show delta
+        #print(self.delta_angle_speed)# Show delta
         self.angle_of_pole = self.angle_of_pole + self.angle_speed * self.world.dt
 
     # Drawing Pole weight , line , attachment point

@@ -58,8 +58,9 @@ if_reset = 0
 
 # Timer when reseting simulation
 max_frame = 300000
-
-
+new_gen = 1
+def NewGenFlag():
+    new_gen = 0
 while running:
     # Timer update
     frame_counter = pygame.time.get_ticks()
@@ -72,9 +73,10 @@ while running:
             running = False
 
     # If 5-minutes had been past reseting simulation 
-    if frame_counter >= max_frame:
+    if new_gen:
         units.NewGen()
-        max_frame += 300000
+        pygame.time.set_timer(NewGenFlag() , 5000)
+        new_gen = 0
 
 
     screen.fill((0 , 0 , 0))

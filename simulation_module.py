@@ -69,7 +69,7 @@ class Simulation:
                     angle = ((math.degrees(self.pole.angle_of_pole)+ 180)%360)-180
 
                     # Give reward with buff
-                    self.by_balance = 1
+                    self.SSIE.by_balance = 1
                     self.SSIE.degrees_bonus += self.SSIE.bbr + 1 - abs(angle)/ 100
                     self.increase_score_timer = self.world.frame_counter + self.time_to_balance_pole
             

@@ -7,7 +7,7 @@ class Simulation_Score_Increase_Event:
             self.bbr = 1
 
             # Reward
-            self.by_stopping = 0# flag
+            self.by_stopping = 1# flag
 
             self.MFBS = 0 # Manual flag bonus if 0: reward will be ignored
             # Stopping rewart value
