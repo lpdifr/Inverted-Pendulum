@@ -69,8 +69,15 @@ if_reset = 0
 
 # Timer when reseting simulation
 max_frame = 60*1000
-print("Var init good")
+def MiddleFPS(listoffps):
+    fpssum = 0
+    for fps in listoffps:
+        fpssum += fps
+    return fpssum/len(listoffps)
+showfps = 3000
+fpslist = []
 while not glfw.window_should_close(screen):
+    fpslist.append(clock.get_fps())
     glfw.poll_events()
     # Timer update
     frame_counter = pygame.time.get_ticks()
@@ -83,6 +90,11 @@ while not glfw.window_should_close(screen):
             running = False
 
     # If 5-minutes had been past reseting simulation 
+    if frame_counter >= showfps:
+        print(MiddleFPS(fpslist))
+        showfps += 3000
+        fpslist.clear()
+        
     if frame_counter >= max_frame:
         units.NewGen()
         max_frame += 60*1000
@@ -95,7 +107,7 @@ while not glfw.window_should_close(screen):
 
     units.SimulationStep()
     glfw.swap_buffers(screen)
-    print(clock.get_fps())
+
 
 
 

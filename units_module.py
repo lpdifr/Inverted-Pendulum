@@ -86,10 +86,16 @@ class Units:
         glEnd()
         
         for unit in self.units:
-            #self.render.attachment_point(unit.simulation.pole.polepointx , unit.simulation.pole.polepointy)
             self.render.weight(unit.simulation.pole.x1 , unit.simulation.pole.y1)
-
-
+        glBegin(GL_LINES)
+        for unit in self.units:
+            self.render.pole_line(
+                unit.simulation.pole.polepointx,
+                unit.simulation.pole.polepointy,
+                unit.simulation.pole.x1,
+                unit.simulation.pole.y1
+            )
+        glEnd()
 
             
     # Reseting
