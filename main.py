@@ -25,9 +25,14 @@ glfw.set_window_pos(screen , 100,100)
 glfw.make_context_current(screen)
 #screen = pygame.display.set_mode((1700, 900))
 #pygame.display.set_caption("Inverted Pendulum")
+glViewport(0 , 0 , 1700 , 900)
+glMatrixMode(GL_PROJECTION)
+glLoadIdentity()
+glOrtho(0, 1700, 900, 0, -1, 1)
+glMatrixMode(GL_MODELVIEW)
 
-
-
+glLoadIdentity()
+glClearColor(0 , 0 , 0 , 0)
 # Creating Enviroment
 class Environment:
     def __init__(self):
@@ -57,7 +62,7 @@ world = Environment()
 
 # Best unit : [-9.117011746541309, 4.569619100723747, -7.344724531657647, -5.944618933983124]
 units = Units(world)
-units.CreateUnits(2000 , slg.LoadLastGen()['weights'] , random_change=(-1.0 , 1.0))#type:ignore
+units.CreateUnits(1000 , slg.LoadLastGen()['weights'] , random_change=(-1.0 , 1.0))#type:ignore
 
 # Resrt flag
 if_reset = 0
@@ -66,7 +71,7 @@ if_reset = 0
 max_frame = 60*1000
 
 while not glfw.window_should_close(screen):
-
+    glfw.poll_events()
     # Timer update
     frame_counter = pygame.time.get_ticks()
     world.frame_counter = frame_counter
@@ -81,16 +86,16 @@ while not glfw.window_should_close(screen):
     if frame_counter >= max_frame:
         units.NewGen()
         max_frame += 60*1000
-    print("dasdasdasd")
+    
 
-    glClearColor(1 , 1, 1, 0)
-
+    glClear(GL_COLOR_BUFFER_BIT)
 
     world.dt = clock.tick(60)/1000#type:ignore
 
 
     units.SimulationStep()
-
+    glfw.swap_buffers(screen)
+    print(clock.get_fps())
 
 
 
