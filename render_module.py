@@ -1,11 +1,8 @@
 import glfw
 from OpenGL.GL import *
 import math
-class Render:
-    def __init__(self , world):
-        self.world = world
-        
-    class render:
+
+class render:
         def __init__(self):
             self.width , self.height = 200 , 100 #Cart width height
             self.radius = 15

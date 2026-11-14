@@ -12,7 +12,7 @@ from simulation_module import Simulation
 from gen_saver import SaveLoadGen
 import glfw
 from OpenGL.GL import *
-from render_module import Render
+from render_module import render
 
 pygame.init()
 slg = SaveLoadGen()
@@ -46,7 +46,7 @@ class Units:
         self.if_simulation = 0
         self.quantity = 0
         self.world = world
-        self.render = Render(self.world)
+        self.render = render(world)
         self.gens_created = 0
     def CreateUnits(self , quantity , weights , random_change:tuple = (-0.1 , 0.1)):
         # Reduce or increase weigths coeficient
