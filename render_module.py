@@ -3,7 +3,7 @@ from OpenGL.GL import *
 import math
 
 class render:
-        def __init__(self):
+        def __init__(self ):
             self.width , self.height = 200 , 100 #Cart width height
             self.radius = 15
             self.segments = 20
@@ -21,24 +21,26 @@ class render:
 
 
         def attachment_point (self , x ,y ):
+            glBegin(GL_TRIANGLE_FAN)
             glColor3f(1, 1, 0)
-            glVertex2f(self.polepointx , self.polepointy)
+            glVertex2f(x , y)
             for i in range(self.segments + 1):
                 angle = 2.0 * math.pi * i / self.segments
                 x = self.radius * math.cos(angle)
                 y = self.radius * math.sin(angle)
-                glVertex2f(self.polepointx + x, self.polepointy + y)
-
+                glVertex2f(x + x, y + y)
+            glEnd()
 
         def weight(self , x , y):
+            glBegin(GL_TRIANGLE_FAN)
             glColor3f(0, 1, 1)
-            glVertex2f(self.x1 , self.y1)
+            glVertex2f(x , y)
             for i in range(self.segments + 1):
                 angle = 2.0 * math.pi * i / self.segments
                 x = self.radius * math.cos(angle)
                 y = self.radius * math.sin(angle)
-                glVertex2f(self.x1 + x, self.y1 + y)
-
+                glVertex2f(x + x, y + y)
+            glEnd()
 
         def pole_line(self , x0 , y0 , x1 , y1):
             glColor3f(0, 1, 0)

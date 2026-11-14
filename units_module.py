@@ -46,7 +46,7 @@ class Units:
         self.if_simulation = 0
         self.quantity = 0
         self.world = world
-        self.render = render(world)
+        self.render = render()
         self.gens_created = 0
     def CreateUnits(self , quantity , weights , random_change:tuple = (-0.1 , 0.1)):
         # Reduce or increase weigths coeficient
@@ -84,6 +84,11 @@ class Units:
         for unit in self.units:
             self.render.cart(unit.simulation.cart.cartx , unit.simulation.cart.carty)
         glEnd()
+        
+        for unit in self.units:
+            #self.render.attachment_point(unit.simulation.pole.polepointx , unit.simulation.pole.polepointy)
+            self.render.weight(unit.simulation.pole.x1 , unit.simulation.pole.y1)
+
 
 
             

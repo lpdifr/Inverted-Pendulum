@@ -69,7 +69,7 @@ if_reset = 0
 
 # Timer when reseting simulation
 max_frame = 60*1000
-
+print("Var init good")
 while not glfw.window_should_close(screen):
     glfw.poll_events()
     # Timer update
