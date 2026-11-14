@@ -193,13 +193,13 @@ class Simulation:
                 
         # Calculation and Drawing Cart
         self.cart.PhisicsCalculate()
-        self.cart.drawcart()
+        #self.cart.drawcart()
             
         # Calculation phisics , moving , drawing pole 
         self.pole.PhisicsCalculate()
         self.pole.polepointx , self.pole.polepointy = self.cart.cartx+100 , self.cart.carty
         self.pole.endofpole()
-        self.pole.drawpole()
+        #self.pole.drawpole()
 
         # Calling ScoreSystem() to calculate score to add
         self.score.ScoreSystem()

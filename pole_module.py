@@ -49,9 +49,9 @@ class Pole:
         glBegin(GL_LINES)
         glVertex2f(self.polepointx, self.polepointy)
         glVertex2f(self.x1, self.y1)
-        glEnd()
+       # glEnd()
         # Attachment point OpenGL
-        glBegin(GL_TRIANGLE_FAN)
+        #glBegin(GL_TRIANGLE_FAN)
         glColor3f(1, 1, 0)
         glVertex2f(self.polepointx , self.polepointy)
         for i in range(self.segments + 1):
@@ -60,8 +60,8 @@ class Pole:
             y = self.radius * math.sin(angle)
             glVertex2f(self.polepointx + x, self.polepointy + y)
             
-        glEnd()
-        glBegin(GL_TRIANGLE_FAN)
+        #glEnd()
+       # glBegin(GL_TRIANGLE_FAN)
         glColor3f(0, 1, 1)
         glVertex2f(self.x1 , self.y1)
         for i in range(self.segments + 1):
@@ -70,7 +70,7 @@ class Pole:
             y = self.radius * math.sin(angle)
             glVertex2f(self.x1 + x, self.y1 + y)
             
-        glEnd()
+       # glEnd()
         # Attachment point
         #pygame.draw.circle(self.screen , (255 , 255 , 0) , (self.polepointx , self.polepointy) ,15)
 

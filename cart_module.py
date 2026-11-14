@@ -51,9 +51,9 @@ class Cart:
         #Creating trunk rectangle
         glColor3f(0, 0.2, 1)
 
-        glBegin(GL_QUADS)
+        #glBegin(GL_QUADS)
         glVertex2f(self.cartx, self.carty)
         glVertex2f(self.cartx + self.width, self.carty)
         glVertex2f(self.cartx + self.width, self.carty + self.height)
         glVertex2f(self.cartx, self.carty + self.height)
-        glEnd()
+        #glEnd()
