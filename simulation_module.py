@@ -5,6 +5,7 @@ import random
 
 from cart_module import Cart
 from pole_module import Pole
+from SSEI_module import Simulation_Score_Increase_Event
 
 # Creating simulation enviorment
 pygame.init()
@@ -14,11 +15,15 @@ default_font = pygame.font.Font(None, 42)
 
 class Simulation:
     # Creating subclass Score to reward AI
+
+
     class Score:
-        def __init__(self , pole , cart , world):
+        def __init__(self , pole , cart , world , SSIE):
             # Creating score variable
             self.score = 0
-
+            
+            # Simulation Score Increase Event
+            self.SSIE = SSIE
             # Importing pole and cart to collect info and give rewards
             self.pole = pole
             self.cart = cart
@@ -28,39 +33,60 @@ class Simulation:
             self.trying_to_balance = 0
             self.increase_score_timer = 0
             self.time_to_balance_pole = 500
+            self.is_AFK_time = 20*1000 #10 sec * 1000 milisec
+            
             #self.in_top_time = 0
 
             # Inicialization simulation to have connection
             self.simulation = None
 
+            # Simulation score events:
+
         # Score system. Rewards and punishment
         def ScoreSystem(self):
-
+            if self.world.frame_counter > self.is_AFK_time:
+                if self.SSIE.MFAB:
+                    self.score -= self.SSIE.AFK_bonus
+                    self.is_AFK_time += 5000
             # If end of pole in top then 
             radwraped = (self.pole.angle_of_pole+math.pi)%(2*math.pi)-math.pi
             radiansnormal = radwraped/math.pi
             if radiansnormal < 0.1 and radiansnormal > -0.1:
+                self.is_AFK_time += 10000
                 if self.trying_to_balance:
                     pass
                 else:
                     self.trying_to_balance = 1
                     self.increase_score_timer = self.world.frame_counter + self.time_to_balance_pole
+                # If trying to stop cart
                 if self.pole.angle_speed < 0 and self.cart.a > 0 or self.pole.angle_speed > 0 and self.cart.a < 0:
-                    self.score += 1
-                # Adding time 
-                #self.in_top_time += 1
-                #print("Time+")
+                    self.SSIE.by_stopping = 1
 
                 # If timer is full then give reward
                 if self.world.frame_counter > self.increase_score_timer:
-                    #print("+Score")
 
                     # Stabilization angle
                     angle = ((math.degrees(self.pole.angle_of_pole)+ 180)%360)-180
 
                     # Give reward with buff
-                    self.score += 1 + 1 - abs(angle)/ 100
+                    self.by_balance = 1
+                    self.SSIE.degrees_bonus += self.SSIE.bbr + 1 - abs(angle)/ 100
                     self.increase_score_timer = self.world.frame_counter + self.time_to_balance_pole
+            
+
+            # Giving Score by results
+                if self.SSIE.by_balance and self.SSIE.MFBB:
+                    self.SSIE.score_sum += self.SSIE.bbr
+                    self.SSIE.by_balance = 0
+                if self.SSIE.by_stopping and self.SSIE.MFBS:
+                    self.SSIE.score_sum += self.SSIE.bsr
+                    self.SSIE.by_stopping = 0
+                if self.SSIE.degrees_bonus and self.SSIE.MFDB:
+                    self.SSIE.score_sum += self.SSIE.degrees_bonus
+                    self.SSIE.degrees_bonus = 0
+                self.score += self.SSIE.score_sum
+                self.SSIE.score_sum = 0
+                
             else:
                 self.trying_to_balance = 0
                 #print("Reseting timer")
@@ -76,7 +102,7 @@ class Simulation:
         self.world = world
         self.neuralnetwork = neuralnetwork
         self.if_father = 0
-
+        self.SSIE = Simulation_Score_Increase_Event()
         # Creating system of perfect timing if AI catches perfect condition , we break it with 1 degrees in random side
         self.if_perfect_time = 0
         self.if_perfect = 0
@@ -90,7 +116,7 @@ class Simulation:
 
 
         # Inicialization of Score system
-        self.score = self.Score(self.pole , self.cart , self.world)
+        self.score = self.Score(self.pole , self.cart , self.world, self.SSIE)
         self.a = 0
 
     #Reseting simulation
@@ -109,7 +135,7 @@ class Simulation:
         self.cart.mainpole = self.pole#type:ignore
 
         #Reseting score
-        self.score = self.Score(self.pole , self.cart , self.world)
+        self.score = self.Score(self.pole , self.cart , self.world , self.SSIE)
 
         #Assing simulation to score
         self.score.simulation = self #type:ignore
