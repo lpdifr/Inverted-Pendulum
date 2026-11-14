@@ -92,7 +92,7 @@ class Simulation:
                 #print("Reseting timer")
 
             #If cart is out of screen restart simulation
-            if self.cart.cartx<-200 or self.cart.cartx>self.cart.world.screen.width:
+            if self.cart.cartx<-200 or self.cart.cartx>self.cart.world.width:
                 self.simulation.reset()#type:ignore
 
 
@@ -108,7 +108,7 @@ class Simulation:
         self.if_perfect = 0
 
         # Creating Cart and Pole
-        self.cart = Cart((self.world.screen.width//2) - 100 ,(self.world.screen.height//2) +300 , self.world)
+        self.cart = Cart((self.world.width//2) - 100 ,(self.world.height//2) +300 , self.world)
         self.pole = Pole(0.2 , 150 , math.radians(180) , self.cart , self.world)
 
         # Adding pole to main cart
@@ -128,7 +128,7 @@ class Simulation:
             self.neuralnetwork.GetWeight() # If we dont have Father
 
         # Old system of reseting
-        self.cart = Cart((self.world.screen.width//2) - 100 ,(self.world.screen.height//2) +300 , self.world)
+        self.cart = Cart((self.world.width//2) - 100 ,(self.world.height//2) +300 , self.world)
         self.pole = Pole(0.2 , 150 , math.radians(180) , self.cart , self.world)
 
         #Setting pole to cart
@@ -205,10 +205,10 @@ class Simulation:
         self.score.ScoreSystem()
 
         # Rendering Score
-        scoredisplay = sys_font.render(f"Score: {self.score.score:.2f}", True, (255, 255, 255))
+       # scoredisplay = sys_font.render(f"Score: {self.score.score:.2f}", True, (255, 255, 255))
 
         # Display Score
-        self.world.screen.blit(scoredisplay , (0 , 0))
+        #self.world.blit(scoredisplay , (0 , 0))
 
         # Frame counter  increasing
         self.a += 1

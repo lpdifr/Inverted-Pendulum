@@ -1,11 +1,14 @@
 import pygame
 import math
+import glfw
+from OpenGL.GL import *
 #Creating Cart: Phisics , Drawing , Data
 class Cart:
     def __init__(self ,cartx , carty ,world):
         # World module inicialization
         self.world = world
-
+        self.width = 200
+        self.height = 100
         # Velocity
         self.v = 0
 
@@ -44,15 +47,13 @@ class Cart:
 
     # Drawing Cart : trunk , wheels
     def drawcart(self):
-        
+
         #Creating trunk rectangle
-        rect = pygame.Rect(self.cartx , self.carty , 200 , 100)
+        glColor3f(0, 0.2, 1)
 
-        #Left wheel
-        pygame.draw.circle(self.world.screen , (30 , 30 , 30) , (self.cartx+15 , self.carty+ 100) ,15)
-
-        #Right wheel
-        pygame.draw.circle(self.world.screen , (30 , 30 , 30) , (self.cartx+185 , self.carty+ 100) ,15)
-
-        #Drawing trunk with rectangle
-        pygame.draw.rect(self.world.screen , (0 , 50 , 255) , rect  )
+        glBegin(GL_QUADS)
+        glVertex2f(self.cartx, self.carty)
+        glVertex2f(self.cartx + self.width, self.carty)
+        glVertex2f(self.cartx + self.width, self.carty + self.height)
+        glVertex2f(self.cartx, self.carty + self.height)
+        glEnd()

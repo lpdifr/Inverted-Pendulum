@@ -14,7 +14,7 @@ from simulation_module import Simulation
 from units_module import Units , Unit
 pygame.init()
 
-
+glfw.init()
 # Inicialization SaveLoadGen
 slg = SaveLoadGen()
 
@@ -37,7 +37,7 @@ class Environment:
         self.b = 4# Environment resist another
         self.screen = screen
         self.frame_counter = 0
-
+        self.width , self.height = glfw.get_window_size(screen)
 
 
 
@@ -81,9 +81,9 @@ while not glfw.window_should_close(screen):
     if frame_counter >= max_frame:
         units.NewGen()
         max_frame += 60*1000
+    print("dasdasdasd")
 
-
-    screen.fill((0 , 0 , 0))
+    glClearColor(1 , 1, 1, 0)
 
 
     world.dt = clock.tick(60)/1000#type:ignore
@@ -92,7 +92,7 @@ while not glfw.window_should_close(screen):
     units.SimulationStep()
 
 
-    pygame.display.update()
+
 
 
 print(f"Generations created: {units.gens_created}")
