@@ -18,6 +18,6 @@ class Simulation_Score_Increase_Event:
             self.MFDB = 1 # Manual flag bonus if 0: reward will be ignored
             # If AI just hanging around and does nothing we reduce his score
             self.AFK_bonus = 10
-            self.MFAB = 1
+            self.MFAB = 0
             # Score sum
             self.score_sum = 0

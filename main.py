@@ -1,4 +1,6 @@
 import pygame
+import glfw
+from OpenGL.GL import *
 import sys
 
 import random
@@ -17,8 +19,12 @@ pygame.init()
 slg = SaveLoadGen()
 
 # Setting up screen
-screen = pygame.display.set_mode((1700, 900))
-pygame.display.set_caption("Inverted Pendulum")
+
+screen = glfw.create_window(1700 , 900,  "Inverted Pendulum" , None , None)
+glfw.set_window_pos(screen , 100,100) 
+glfw.make_context_current(screen)
+#screen = pygame.display.set_mode((1700, 900))
+#pygame.display.set_caption("Inverted Pendulum")
 
 
 
@@ -51,17 +57,16 @@ world = Environment()
 
 # Best unit : [-9.117011746541309, 4.569619100723747, -7.344724531657647, -5.944618933983124]
 units = Units(world)
-units.CreateUnits(1 , slg.LoadLastGen()['weights'] , random_change=(-1.0 , 1.0))#type:ignore
+units.CreateUnits(2000 , slg.LoadLastGen()['weights'] , random_change=(-1.0 , 1.0))#type:ignore
 
 # Resrt flag
 if_reset = 0
 
 # Timer when reseting simulation
-max_frame = 300000
-new_gen = 1
-def NewGenFlag():
-    new_gen = 0
-while running:
+max_frame = 60*1000
+
+while not glfw.window_should_close(screen):
+
     # Timer update
     frame_counter = pygame.time.get_ticks()
     world.frame_counter = frame_counter
@@ -73,17 +78,16 @@ while running:
             running = False
 
     # If 5-minutes had been past reseting simulation 
-    if new_gen:
+    if frame_counter >= max_frame:
         units.NewGen()
-        pygame.time.set_timer(NewGenFlag() , 5000)
-        new_gen = 0
+        max_frame += 60*1000
 
 
     screen.fill((0 , 0 , 0))
 
 
     world.dt = clock.tick(60)/1000#type:ignore
-#problem
+
 
     units.SimulationStep()
 
