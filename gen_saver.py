@@ -7,11 +7,12 @@ class SaveLoadGen:
         self.save_folder = "saves"
 
     # Load gen function
-    def LoadLastGen(self):
+    def LoadLastGen(self ,manual : str = "None"):
         # Open gen version list
-
-        last_gen_file = open(self.save_folder+"/"+"lastgen.lg" , "rb")
-
+        if manual == "None":
+            last_gen_file = open(self.save_folder+"/"+"lastgen.lg" , "rb")
+        else:
+            last_gen_file = manual+".gen"
 
         # Loading last gen file name
         last_gen_name = pickle.load(last_gen_file)
