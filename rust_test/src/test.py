@@ -1,2 +1,2 @@
-import main
-main.hello_from_rust()
+import hello_module
+hello_module.hello_from_rust()
