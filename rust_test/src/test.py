@@ -1,2 +1,2 @@
-import hello_module
-hello_module.hello_from_rust()
+import phisics_module
+phisics_module.hello_from_rust()

@@ -1,2 +1,4 @@
     Checking rust_test v0.1.0 (C:\Users\LukaL\OneDrive\Рабочий стол\Inverted Pendulum\rust_test)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.24s
+error: could not compile `rust_test` (lib) due to 1 previous error
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `rust_test` (lib test) due to 1 previous error

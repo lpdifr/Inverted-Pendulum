@@ -5,7 +5,7 @@ from OpenGL.GL import *
 class Pole:
     def __init__(self, mass_of_weight , pole_length ,pole_angle, cart , world ):
         # Inicializtion World and Cart
-        self.screen = world.screen
+        #
         self.world = world
         self.cart = cart
         self.radius = 15
@@ -40,42 +40,7 @@ class Pole:
         #print(self.delta_angle_speed)# Show delta
         self.angle_of_pole = self.angle_of_pole + self.angle_speed * self.world.dt
 
-    # Drawing Pole weight , line , attachment point
-    def drawpole(self):
-        # Pole line
-        glColor3f(0, 1, 0)
-        glLineWidth(7)
 
-        glBegin(GL_LINES)
-        glVertex2f(self.polepointx, self.polepointy)
-        glVertex2f(self.x1, self.y1)
-       # glEnd()
-        # Attachment point OpenGL
-        #glBegin(GL_TRIANGLE_FAN)
-        glColor3f(1, 1, 0)
-        glVertex2f(self.polepointx , self.polepointy)
-        for i in range(self.segments + 1):
-            angle = 2.0 * math.pi * i / self.segments
-            x = self.radius * math.cos(angle)
-            y = self.radius * math.sin(angle)
-            glVertex2f(self.polepointx + x, self.polepointy + y)
-            
-        #glEnd()
-       # glBegin(GL_TRIANGLE_FAN)
-        glColor3f(0, 1, 1)
-        glVertex2f(self.x1 , self.y1)
-        for i in range(self.segments + 1):
-            angle = 2.0 * math.pi * i / self.segments
-            x = self.radius * math.cos(angle)
-            y = self.radius * math.sin(angle)
-            glVertex2f(self.x1 + x, self.y1 + y)
-            
-       # glEnd()
-        # Attachment point
-        #pygame.draw.circle(self.screen , (255 , 255 , 0) , (self.polepointx , self.polepointy) ,15)
-
-        # Weight
-        #pygame.draw.circle(self.screen , (0 , 255 , 255) , (self.x1 , self.y1) ,15)
 
 
 #Creating Cart: Phisics , Drawing , Data
