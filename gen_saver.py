@@ -12,7 +12,7 @@ class SaveLoadGen:
     # Load gen function
     def LoadLastGen(self ,manual : str = "None"):
         now = datetime.now()
-        log = open(self.save_folder+"/"+self.log_name , "w")
+        log = open(self.save_folder+"/"+self.log_name , "a")
         for i in range(3):
 
             log.write("\n")
@@ -60,7 +60,7 @@ class SaveLoadGen:
     # Save gen function
     def SaveGen(self , weights):
         now = datetime.now()
-        log = open(self.save_folder+"/"+self.log_name , "w")
+        log = open(self.save_folder+"/"+self.log_name , "a")
 
         # Loading last gen data
         
@@ -90,12 +90,12 @@ class SaveLoadGen:
         log.write(f"On {date.today()} ; In {now.strftime("%H:%M:%S")}; Prepearing to change lastgen.lg..." + "\n")
         try:
             lastgen_list = open(self.save_folder+"/"+ "lastgen.lg" , "wb")
-            log.write(f"On {date.today()} ; In {now.strftime("%H:%M:%S")}; Changing was successful.")
+            log.write(f"On {date.today()} ; In {now.strftime("%H:%M:%S")}; Changing was successful." + "\n")
         except:
-            log.write(f"On {date.today()} ; In {now.strftime("%H:%M:%S")}; Changing was not successful.")
+            log.write(f"On {date.today()} ; In {now.strftime("%H:%M:%S")}; Changing was not successful."+ "\n")
         log.write(f"On {date.today()} ; In {now.strftime("%H:%M:%S")}; Prepearing to change lastgen.lg second time..." + "\n")
         pickle.dump(f"gen_{gen}" , lastgen_list)
-        log.write(f"On {date.today()} ; In {now.strftime("%H:%M:%S")}; Changing was successful.")
+        log.write(f"On {date.today()} ; In {now.strftime("%H:%M:%S")}; Changing was successful."+ "\n")
         
         lastgen_list.close()
     # Saving raw data to init save system
@@ -105,7 +105,7 @@ class SaveLoadGen:
         pickle.dump(raw_name , last_gen_file)
         raw_gen = open(self.save_folder+"/"+raw_name+self.gen_ext , "wb")
         raw_data = {
-            "gen" : 0,
+            "gen" : gen,
             "weights" : weights
             }
         pickle.dump(raw_data , raw_gen)
@@ -115,3 +115,4 @@ slg = SaveLoadGen()
 def FIX_LAST_GEN_FILE(last_working_gen):
     a = slg.LoadLastGen(last_working_gen)
     slg.SaveManual(a["weights"] , last_working_gen + 1)
+FIX_LAST_GEN_FILE(449)
