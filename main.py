@@ -43,7 +43,7 @@ class Environment:
         self.screen = screen
         self.frame_counter = 0
         self.width , self.height = glfw.get_window_size(screen)
-
+        self.render = 0
 
 
 
