@@ -115,4 +115,3 @@ slg = SaveLoadGen()
 def FIX_LAST_GEN_FILE(last_working_gen):
     a = slg.LoadLastGen(last_working_gen)
     slg.SaveManual(a["weights"] , last_working_gen + 1)
-FIX_LAST_GEN_FILE(449)
