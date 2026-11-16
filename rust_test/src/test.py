@@ -1,2 +1,1 @@
 import phisics_module
-phisics_module.hello_from_rust()

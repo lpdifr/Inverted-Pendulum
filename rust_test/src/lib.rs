@@ -5,16 +5,16 @@ use pyo3::wrap_pyfunction;
 struct Screen{
     width : i32,
     height: i32,
-    fps   : f16,
+    fps   : f32,
 }
 #[pyclass]
 struct World{
     // Setting screen
     screen  : Screen,
 
-    gravity : u32, // Gravity 900 pixels per
+    gravity : f64, // Gravity 900 pixels per
     k       : u8,  // Env resist
-    delta_t : u64, // Delta time
+    delta_t : f64, // Delta time
     frame   : u32, // Frame counter
     width   : u32, // Screen width
     height  : u32, // Screen height
@@ -34,14 +34,14 @@ struct Cart {
     carty    : i32,
 
     // Setting pole position on cart
-    polex    : f32,
-    poley    : f32,
+    polex    : f64,
+    poley    : f64,
 
     // Setting phisics variables
-    velocity : f32,
-    force    : f32,
-    cartmass : f32,
-    a        : f32
+    velocity : f64,
+    force    : f64,
+    cartmass : f64,
+    a        : f64
 
 }
 #[pyclass]
@@ -49,17 +49,17 @@ struct Pole{
     world           : World, // Loading World structure
     cart            : Cart,  // Loading Cart structure
 
-    ax              : f32,   // Setting attachment point
-    ay              : f32,
+    ax              : f64,   // Setting attachment point
+    ay              : f64,
 
-    x1              : f32,   // Setting weight point
-    y1              : f32,
+    x1              : f64,   // Setting weight point
+    y1              : f64,
                              // Setting
-    angle           : f32,      // Angle of pole
-    weight_mass     : u32,      // Weight mass
-    length          : f32,      // Lenght of pole
-    angle_velocity  : f32,      // Angle speed
-    alpha_angle     : f32       // Alpha angle
+    angle           : f64,      // Angle of pole
+    weight_mass     : f64,      // Weight mass
+    length          : f64,      // Lenght of pole
+    angle_velocity  : f64,      // Angle speed
+    alpha_angle     : f64       // Alpha angle
 }
 impl Pole {
     fn set(&mut self){
@@ -68,11 +68,11 @@ impl Pole {
 
         self.endofpole();
 
-        self.weight_mass    =      5;
+        self.weight_mass    =      5.0;
 
         self.length         =  145.0;
 
-        self.angle          =  std::f32::consts::PI;
+        self.angle          =  std::f64::consts::PI;
         self.angle_velocity =    0.0;
         self.alpha_angle    =    0.0;
 
@@ -93,10 +93,10 @@ impl Pole {
 
 impl Cart {
     fn set(&mut self){
-        self.cartx = self.world.screen.width   as f32/2.0 - self.width/2;
-        self.carty = (self.world.screen.height as f32/2.0) + 300;
-        self.polex = self.world.screen.width   as f32 /2.0;
-        self.poley = (self.world.screen.height as f32/2.0) + 300;
+        self.cartx = (self.world.screen.width /2) - (self.width/2);
+        self.carty = (self.world.screen.height /2) + 300;
+        self.polex = (self.world.screen.width / 2) as f64;
+        self.poley = ((self.world.screen.height / 2) + 300) as f64;
         self.velocity = 0.0;
         self.cartmass = 5.0;
         self.a = 0.0;
