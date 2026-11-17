@@ -114,6 +114,7 @@ impl Pole {
         self.alpha_angle = (self.world.gravity * self.angle.sin() - cart.a*self.angle.cos())/self.length;
         self.angle_velocity = self.angle_velocity + self.alpha_angle * self.world.delta_t;
         self.angle = self.angle + self.angle_velocity * self.world.delta_t;
+        self.endofpole();
     }
 }
 
@@ -143,11 +144,14 @@ impl Unit{
         self.pole.set_default(&self.cart);
     }
     fn calculate_phisics(&mut self){
+        
         self.cart.calculate_phisics(&self.pole);
         self.pole.calculate_phisics(&self.cart);
+        
     }
     fn step(&mut self){
         self.calculate_phisics();
+        self.score.check_situatione(&mut self.cart, &mut self.pole);
         self.score.calculate_score()
         
     }

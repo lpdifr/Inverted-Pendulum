@@ -40,7 +40,7 @@ pub(crate) struct ScoreSystem{
     SSEI  : SSEI,
 }
 impl ScoreSystem{
-    fn check_situatione(&mut self, cart: &mut Cart, pole: &mut Pole){
+    pub(crate) fn check_situatione(&mut self, cart: &mut Cart, pole: &mut Pole){
 
         // Setting default score values
         
@@ -61,6 +61,7 @@ impl ScoreSystem{
         
     }
     pub(crate) fn calculate_score(&mut self){
+
         // Balance reward
         if self.SSEI.by_balance             && self.SSEI.MFBB{ self.score += self.SSEI.by_balance_reward; }
 
@@ -69,5 +70,6 @@ impl ScoreSystem{
 
         // By degrees bonus
         if self.SSEI.by_degrees_bonus > 0.0 && self.SSEI.MFDB{ self.score += self.SSEI.by_degrees_bonus;  }
+        self.SSEI.set_default();
     }
 }
