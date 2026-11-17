@@ -5,8 +5,8 @@ mod score_module;
 use crate::score_module::ScoreSystem;
 #[pyclass]
 struct Screen{
-    width : i32,
-    height: i32,
+    width : f64,
+    height: f64,
     fps   : f32,
 }
 #[pyclass]
@@ -31,11 +31,11 @@ struct Cart {
     world    : World,
 
     // Setting size variables
-    width    : i32,
-    height   : i32,
+    width    : f64,
+    height   : f64,
     // Setting screen variables
-    cartx    : i32,
-    carty    : i32,
+    cartx    : f64,
+    carty    : f64,
 
     // Setting pole position on cart
     polex    : f64,
@@ -118,10 +118,10 @@ impl Pole {
 
 impl Cart {
     fn set_default(&mut self){
-        self.cartx = (self.world.screen.width /2) - (self.width  / 2);
-        self.carty = (self.world.screen.height /2) + 300;
-        self.polex = (self.world.screen.width / 2) as f64;
-        self.poley = ((self.world.screen.height / 2) + 300) as f64;
+        self.cartx = (self.world.screen.width /2.0) - (self.width  / 2.0);
+        self.carty = (self.world.screen.height /2.0) + 300.0;
+        self.polex = (self.world.screen.width / 2.0);
+        self.poley = ((self.world.screen.height / 2.0) + 300.0) as f64;
         self.velocity = 0.0;
         self.cartmass = 5.0;
         self.a = 0.0;
@@ -130,8 +130,8 @@ impl Cart {
     fn calculate_phisics(&mut self , pole : &Pole){
         self.a = (self.force - self.world.b*self.velocity + pole.weight_mass * pole.length * pole.angle_velocity.powi(2) * pole.angle.sin() - pole.weight_mass * self.world.gravity * pole.angle.sin() * pole.angle.cos())/(self.cartmass + pole.weight_mass * pole.angle.powi(2).sin());
         self.velocity = self.velocity + self.a * self.world.delta_t;
-        self.cartx = self.cartx + self.velocity as i32 * self.world.delta_t as i32;
-        self.polex = (self.cartx + self.width/2) as f64;
+        self.cartx = self.cartx + self.velocity  * self.world.delta_t;
+        self.polex = (self.cartx + self.width/2.0) as f64;
         
     }
 }
