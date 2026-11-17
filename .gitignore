@@ -15,3 +15,5 @@ venv/
 # Windows metadata
 Thumbs.db
 Desktop.ini
+.vs/
+rust_test/target/
