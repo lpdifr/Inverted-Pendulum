@@ -83,7 +83,7 @@ impl Pole {
         self.ax = cart.polex;
         self.ay = cart.poley;
 
-        self.endofpole();
+        
 
         self.weight_mass    =      5.0;
 
@@ -92,7 +92,7 @@ impl Pole {
         self.angle          =  std::f64::consts::PI;
         self.angle_velocity =    0.0;
         self.alpha_angle    =    0.0;
-
+        self.endofpole();
 
     }
 
@@ -118,7 +118,7 @@ impl Pole {
 
 impl Cart {
     fn set_default(&mut self){
-        self.cartx = (self.world.screen.width /2) - (self.width/2);
+        self.cartx = (self.world.screen.width /2) - (self.width  / 2);
         self.carty = (self.world.screen.height /2) + 300;
         self.polex = (self.world.screen.width / 2) as f64;
         self.poley = ((self.world.screen.height / 2) + 300) as f64;
@@ -128,9 +128,11 @@ impl Cart {
         self.force = 0.0;
     }
     fn calculate_phisics(&mut self , pole : &Pole){
-        self.a = (self.force - self.world.b*self.velocity + pole.weight_mass * pole.length * pole.angle_velocity.powi(2) * pole.angle.sin() - pole.weight_mass * self.world.gravity * pole.angle.sin() * pole.angle.cos())/(self.cartmass + pole.weight_mass * pole.angle.powi(2));
+        self.a = (self.force - self.world.b*self.velocity + pole.weight_mass * pole.length * pole.angle_velocity.powi(2) * pole.angle.sin() - pole.weight_mass * self.world.gravity * pole.angle.sin() * pole.angle.cos())/(self.cartmass + pole.weight_mass * pole.angle.powi(2).sin());
         self.velocity = self.velocity + self.a * self.world.delta_t;
         self.cartx = self.cartx + self.velocity as i32 * self.world.delta_t as i32;
+        self.polex = (self.cartx + self.width/2) as f64;
+        
     }
 }
 

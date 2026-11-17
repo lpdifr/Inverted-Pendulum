@@ -9,24 +9,23 @@ struct SSEI{
     // Setting reward by balance and manual flags for score
     #[serde(default)]
     MFBB               : bool,  // Manual flag by balance
-    MFBS               : bool, // Manual flag by stopping
-    MFDB               : bool,
+    MFBS               : bool,  // Manual flag by stopping
+    MFDB               : bool,  // Manual flag by degrees bonus
+
+    by_balance_reward  : f64, // Setting reward value by balance
+    by_stopping_reward : f64, // Setting reward value by stopping
+    by_degrees_reward  : f64, // Setting reward value by degrees bonus
 
 
     // Setting reward by balance
     by_balance         : bool,  // Flag by balance tells do we need to give reward
-    by_balance_reward  : f64, // Setting reward value by balance
-
-
+    
     // Setting reward by stopping
     by_stopping        : bool, // Flag by stopping tells do we need to give reward
-    by_stopping_reward : f64, // Setting reward value by stopping
-
-    
+   
     // Setting reward bonus by degrees value
     by_degrees_bonus   : f64,
-    by_degrees_reward  : f64,
-
+    
 }
 impl SSEI{
 

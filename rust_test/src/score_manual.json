@@ -1,5 +1,9 @@
 {
     "MFBB":true,
     "MFBS":true,
-    "MFDB":true
+    "MFDB":true,
+    "balance_reward"      :1,
+    "stopping_reward"     :3,
+    "degrees_bonus_reward":1
+
 }
