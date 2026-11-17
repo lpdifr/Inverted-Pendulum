@@ -51,9 +51,9 @@ impl ScoreSystem{
         // Checking if we need to give reward
         if pole.radians_normal > -0.1 && pole.radians_normal < 0.1 {
 
-            let angle = (pole.angle * (180.0 / std::f64::consts::PI) % 360.0) - 180.0;
+            let angle = pole.radians_normal * 180.0;
             self.SSEI.by_balance = true;
-            self.SSEI.by_degrees_bonus = self.SSEI.by_balance_reward as f64 + 1.0 - angle.abs() / 100.0;
+            self.SSEI.by_degrees_bonus = self.SSEI.by_degrees_reward as f64 + 1.0 - angle.abs() / 100.0;
         }
         if pole.angle_velocity < 0.0 && cart.a > 0.0 ||  pole.angle_velocity > 0.0 && cart.a < 0.0{
             self.SSEI.by_stopping = true
