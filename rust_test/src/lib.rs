@@ -110,6 +110,7 @@ impl Pole {
     
     // Calculating phisics of pole
     fn calculate_phisics(&mut self , cart : &Cart){
+        sel.ax = cart.polex;
         self.alpha_angle = (self.world.gravity * self.angle.sin() - cart.a*self.angle.cos())/self.length;
         self.angle_velocity = self.angle_velocity + self.alpha_angle * self.world.delta_t;
         self.angle = self.angle + self.angle_velocity * self.world.delta_t;
@@ -128,7 +129,7 @@ impl Cart {
         self.force = 0.0;
     }
     fn calculate_phisics(&mut self , pole : &Pole){
-        self.a = (self.force - self.world.b*self.velocity + pole.weight_mass * pole.length * pole.angle_velocity.powi(2) * pole.angle.sin() - pole.weight_mass * self.world.gravity * pole.angle.sin() * pole.angle.cos())/(self.cartmass + pole.weight_mass * pole.angle.powi(2).sin());
+        self.a = (self.force - self.world.b*self.velocity + pole.weight_mass * pole.length * pole.angle_velocity.powi(2) * pole.angle.sin() - pole.weight_mass * self.world.gravity * pole.angle.sin() * pole.angle.cos())/(self.cartmass + pole.weight_mass * pole.angle.sin().powi(2));
         self.velocity = self.velocity + self.a * self.world.delta_t;
         self.cartx = self.cartx + self.velocity  * self.world.delta_t;
         self.polex = (self.cartx + self.width/2.0) as f64;
