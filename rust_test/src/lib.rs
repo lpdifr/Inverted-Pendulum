@@ -143,16 +143,12 @@ impl Unit{
         self.cart.calculate_phisics(&self.pole);
         self.pole.calculate_phisics(&self.cart);
     }
-    // fn step(){} in future
+    fn step(&mut self){
+        self.calculate_phisics();
+        self.score.calculate_score()
+        
+    }
 }
-
-
-
-
-
-
-
-
 
 
 

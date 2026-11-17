@@ -61,9 +61,14 @@ impl ScoreSystem{
         }
         
     }
-    fn calculate_score(&mut self){
-        if self.SSEI.by_balance  && self.SSEI.MFBB{ self.score += self.SSEI.by_balance_reward; }
-        if self.SSEI.by_stopping && self.SSEI.MFBS{ self.score += self.SSEI.by_stopping_reward;}
+    pub(crate) fn calculate_score(&mut self){
+        // Balance reward
+        if self.SSEI.by_balance             && self.SSEI.MFBB{ self.score += self.SSEI.by_balance_reward; }
 
+        // Stopping reward
+        if self.SSEI.by_stopping            && self.SSEI.MFBS{ self.score += self.SSEI.by_stopping_reward;}
+
+        // By degrees bonus
+        if self.SSEI.by_degrees_bonus > 0.0 && self.SSEI.MFDB{ self.score += self.SSEI.by_degrees_bonus;  }
     }
 }
