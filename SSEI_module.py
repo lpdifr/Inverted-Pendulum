@@ -10,7 +10,7 @@ class Simulation_Score_Increase_Event:
             self.by_stopping = 1# flag
 
             self.MFBS = 1 # Manual flag bonus if 0: reward will be ignored
-            # Stopping rewart value
+            # Stopping reward value
             self.bsr = 3
 
             # Increase score by degrees bonus

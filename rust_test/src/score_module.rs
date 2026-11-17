@@ -1,17 +1,19 @@
+use serde::Serialize;
 use serde::Deserialize;
 use crate::{Cart, Pole , World};
-#[derive(Deserialize)]
-struct SSEI{
+use std::fs;
+#[derive(Serialize)]
+struct SSEI_sys_copy{
     //______________________________________________________
     // Setting manual flags , reward values and reward flags
     //______________________________________________________
 
     // Setting reward by balance and manual flags for score
-    #[serde(default)]
+    
     MFBB               : bool,  // Manual flag by balance
+
     MFBS               : bool,  // Manual flag by stopping
     MFDB               : bool,  // Manual flag by degrees bonus
-
     by_balance_reward  : f64, // Setting reward value by balance
     by_stopping_reward : f64, // Setting reward value by stopping
     by_degrees_reward  : f64, // Setting reward value by degrees bonus
@@ -27,19 +29,65 @@ struct SSEI{
     by_degrees_bonus   : f64,
     
 }
-impl SSEI{
+#[derive(Deserialize, Default)]
+#[serde(default)]
 
-    fn set_default(&mut self){
+struct SSEI_sys{
+    //______________________________________________________
+    // Setting manual flags , reward values and reward flags
+    //______________________________________________________
+
+    // Setting reward by balance and manual flags for score
+    
+    MFBB               : bool,  // Manual flag by balance
+
+    MFBS               : bool,  // Manual flag by stopping
+    MFDB               : bool,  // Manual flag by degrees bonus
+    by_balance_reward  : f64, // Setting reward value by balance
+    by_stopping_reward : f64, // Setting reward value by stopping
+    by_degrees_reward  : f64, // Setting reward value by degrees bonus
+
+
+    // Setting reward by balance
+    by_balance         : bool,  // Flag by balance tells do we need to give reward
+    
+    // Setting reward by stopping
+    by_stopping        : bool, // Flag by stopping tells do we need to give reward
+   
+    // Setting reward bonus by degrees value
+    by_degrees_bonus   : f64,
+    
+}
+impl SSEI_sys{
+
+    pub(crate) fn set_default(&mut self){
+
         self.by_balance       = false;
         self.by_stopping      = false;
         self.by_degrees_bonus = 0.0;
     }
+
+
 }
 pub(crate) struct ScoreSystem{
     score : f64,
-    SSEI  : SSEI,
+    SSEI  : SSEI_sys,
 }
 impl ScoreSystem{
+    pub(crate) fn new() -> Self{
+        let json_settigns = include_str!("score_manual.json");
+        let settings_loaded = false;
+        
+        let settings : SSEI_sys = 
+            serde_json::from_str(json_settigns)
+                .expect("Ошибка загрузки настроек очков сималяции");
+        
+
+        Self { 
+            score: 0.0, 
+            SSEI: settings,
+         }
+    }
     pub(crate) fn check_situatione(&mut self, cart: &mut Cart, pole: &mut Pole){
 
         // Setting default score values

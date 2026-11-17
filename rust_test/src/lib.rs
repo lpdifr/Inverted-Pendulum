@@ -9,6 +9,11 @@ struct Screen{
     height: f64,
     fps   : f32,
 }
+impl Screen {
+    fn new() -> Self{
+        Self { width: 1700.0, height: 900.0, fps: 60.0 }
+    }
+}
 #[pyclass]
 struct World{
     // Setting screen
@@ -18,11 +23,22 @@ struct World{
     k       : u8,  // Env resist
     delta_t : f64, // Delta time
     frame   : u32, // Frame counter
-    width   : u32, // Screen width
-    height  : u32, // Screen height
+
     b       : f64
 }
-
+impl World {
+    fn new() -> Self{
+        Self { 
+                screen: Screen::new(),
+                tick: 0,
+                gravity: 900.0,
+                k: 4, 
+                delta_t: 0.0,
+                frame: 0,
+                b: 4.0
+            }
+    }
+}
 
 #[pyclass]
 struct Cart {
@@ -79,6 +95,23 @@ struct Unit{
 }
 
 impl Pole {
+    fn new()-> Self{
+        Self 
+        {
+            world: World::new(),
+            ax: 0.0,
+            ay: 0.0,
+            x1: 0.0,
+            y1: 0.0,
+            angle: 0.0,
+            weight_mass: 0.0,
+            length: 0.0,
+            angle_velocity: 0.0,
+            alpha_angle: 0.0,
+            raw_pole_angle: 0.0,
+            radians_normal: 0.0
+        }
+    }
     fn set_default(&mut self , cart : &Cart){
         self.ax = cart.polex;
         self.ay = cart.poley;
@@ -98,7 +131,7 @@ impl Pole {
 
     // Normalizing values
     fn normalize_values(&mut self){
-        self.radians_normal = ((self.angle + std::f64::consts::PI)%(2.0 * std::f64::consts::PI)-std::f64::consts::PI)/std::f64::consts::PI;
+        self.radians_normal = ((self.angle + std::f64::consts::PI).rem_euclid((2.0 * std::f64::consts::PI)-std::f64::consts::PI)/std::f64::consts::PI);
     }
 
     // Calculation endpole x , y
@@ -119,6 +152,23 @@ impl Pole {
 }
 
 impl Cart {
+    fn new() -> Self{
+
+        Self 
+        { 
+            world: World::new(),
+            width: 200.0,
+            height: 100.0,
+            cartx: (1700.0/2.0) - 100.0,
+            carty: (900.0/2.0)+300.0,
+            polex: 1700.0/2.0,
+            poley: (900.0/2.0)+300.0,
+            velocity: 0.0,
+            force: 0.0,
+            cartmass: 0.0,
+            a: 0.0 
+        }
+    }
     fn set_default(&mut self){
         self.cartx = (self.world.screen.width /2.0) - (self.width  / 2.0);
         self.carty = (self.world.screen.height /2.0) + 300.0;
@@ -139,7 +189,13 @@ impl Cart {
 }
 
 impl Unit{
-    fn reset_simulation(&mut self){
+    fn new() -> Self {
+        Self { cart: Cart::new(),
+               pole: Pole::new(), 
+               score:ScoreSystem::new()
+            }
+    }
+    fn reset_unit(&mut self){
         self.cart.set_default();
         self.pole.set_default(&self.cart);
     }
@@ -158,6 +214,22 @@ impl Unit{
 }
 
 
+struct Simulation{
+    units : Vec<Unit>
+}
+impl Simulation{
+    fn create_simulation(&mut self , units_quantity: i32){
+        self.units = Vec::with_capacity(10_000);
+        for _ in 0.. units_quantity{
+            let mut unit = Unit::new();
+            unit.cart.set_default();
+            unit.pole.set_default(&unit.cart);
+        }
+    }
+    //fn 
+
+}
+
 
 
 
@@ -174,6 +246,7 @@ impl Unit{
 #[pyfunction]
 fn phisics() {
     println!("Hello from rust from python !");
+    
 }
 
 #[pymodule]
