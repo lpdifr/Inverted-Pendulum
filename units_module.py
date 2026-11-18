@@ -84,21 +84,21 @@ class Units:
         if self.world.render:
             glBegin(GL_QUADS)
             for unit in self.units:
-                if a == 101:
+                if a == 10000:
                     break
                 self.render.cart(unit.simulation.cart.cartx , unit.simulation.cart.carty)
                 a += 1
             glEnd()
             a = 0
             for unit in self.units:
-                if a == 101:
+                if a == 10000:
                     break
                 self.render.weight(unit.simulation.pole.x1 , unit.simulation.pole.y1)
                 a += 1
             glBegin(GL_LINES)
             a = 0
             for unit in self.units:
-                if a == 101:
+                if a == 10000:
                     break
                 self.render.pole_line(
                     unit.simulation.pole.polepointx,
