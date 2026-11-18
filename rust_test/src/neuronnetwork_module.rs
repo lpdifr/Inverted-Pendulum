@@ -30,7 +30,7 @@ impl Neuron{
         if incoming_data.len() != self.weights_list.len(){
             panic!("Incoming data number does not match weight's number.")
         }
-        
+
         self.z = 0.0;
         for i in 0..incoming_data.len(){
 
