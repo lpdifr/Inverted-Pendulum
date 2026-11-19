@@ -108,7 +108,7 @@ impl ScoreSystem{
         }
         
     }
-    pub(crate) fn calculate_score(&mut self){
+    pub(crate) fn calculate_score(&mut self) -> f64{
 
         // Balance reward
         if self.SSEI.by_balance             && self.SSEI.MFBB{ self.score += self.SSEI.by_balance_reward; }
@@ -119,5 +119,6 @@ impl ScoreSystem{
         // By degrees bonus
         if self.SSEI.by_degrees_bonus > 0.0 && self.SSEI.MFDB{ self.score += self.SSEI.by_degrees_bonus;  }
         self.SSEI.set_default();
+        return self.score.clone();
     }
 }

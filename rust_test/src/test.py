@@ -1,1 +1,2 @@
 import phisics_module
+phisics_module.phisics_module()

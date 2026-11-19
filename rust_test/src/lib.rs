@@ -35,7 +35,7 @@ impl World {
                 tick: 0,
                 gravity: 900.0,
                 k: 4, 
-                delta_t: 0.0,
+                delta_t: 0.0083333,
                 frame: 0,
                 b: 4.0
             }
@@ -94,7 +94,8 @@ struct Unit{
     cart : Cart,
     pole : Pole,
     score: ScoreSystem,
-    nn : NeuronNetwork
+    nn : NeuronNetwork,
+   
 }
 
 impl Pole {
@@ -196,7 +197,8 @@ impl Unit{
         Self { cart: Cart::new(),
                pole: Pole::new(), 
                score:ScoreSystem::new(),
-               nn:NeuronNetwork::new()
+               nn:NeuronNetwork::new(),
+
             }
     }
     fn reset_unit(&mut self){
@@ -210,22 +212,31 @@ impl Unit{
         
     }
     fn step(&mut self){
+
+
         self.nn.get_variables(self.cart.cartx, self.cart.velocity, self.pole.angle, self.pole.angle_velocity);
         self.nn.normalize_values();
         self.cart.force = self.nn.calculate_action().clone() * 3000.0;
 
         self.calculate_phisics();
         self.score.check_situation(&mut self.cart, &mut self.pole);
-        self.score.calculate_score()
+        self.score.calculate_score();
+
         
     }
 }
 
 
 struct Simulation{
-    units : Vec<Unit>
+    units : Vec<Unit>,
+
 }
 impl Simulation{
+    pub(crate) fn new() -> Self{
+        Self{
+            units : Vec::new()
+        }
+    }
     fn create_simulation(&mut self , units_quantity: i32 ,weights_set : Vec<f64>){
         self.units = Vec::with_capacity(10_000);
         for _ in 0.. units_quantity{
@@ -238,9 +249,10 @@ impl Simulation{
             self.units.push(unit);
         }
     }
-    fn step(&mut self){
+    pub(crate)fn step(&mut self){
         for unit in &mut self.units{
             unit.step();
+            
         }
     } 
 
@@ -260,14 +272,17 @@ impl Simulation{
 
 
 #[pyfunction]
-fn phisics() {
-    println!("Hello from rust from python !");
+fn main(weights : Vec<f64>) {
+    
+    let mut simulation = Simulation::new();
+    simulation.create_simulation(10000, weights.clone());
     
 }
 
 #[pymodule]
 fn phisics_module(py: Python, m: &Bound<'_, PyModule>) -> PyResult<()> {
-    m.add_function(wrap_pyfunction!(phisics , m)?)?;
+    m.add_function(wrap_pyfunction!(main , m)?)?;
+    
 
     Ok(())
 }
