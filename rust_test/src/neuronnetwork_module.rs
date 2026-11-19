@@ -1,4 +1,6 @@
-use rand::Rng;
+use rand::RngExt;
+use rand::rngs::SmallRng;
+
 //for future random weights generator
 // rand::thread_rng().gen_range(1..=100);
 struct Neuron{
@@ -18,14 +20,16 @@ impl Neuron{
             a     : 0.0,
         }
     } 
-    fn set_neuron_weight(&mut self , weights : Vec<f64>){
+    fn set_neuron(&mut self , weights : Vec<f64>){
+        let mut rng: SmallRng = rand::make_rng();
+        self.b = (rng.random_range(-1.0..=1.0)) * 2.0 - 1.0;
         self.weights_list.clear();
         for weight in weights{
             self.weights_list.push(weight);
         }
     
     }
-    fn calculate_vector(&mut self , incoming_data : Vec<f64>){
+    fn calculate_vector(&mut self , incoming_data : Vec<f64>) -> f64{
         
         if incoming_data.len() != self.weights_list.len(){
             panic!("Incoming data number does not match weight's number.")
@@ -39,10 +43,13 @@ impl Neuron{
 
         self.z += self.b;
         self.a = self.z.tanh();
+        
+        return self.a;
     }
 }
 struct Layer{
-    layer : Vec<Neuron>
+    layer   : Vec<Neuron>,
+    weights : Vec<f64>
 }
 impl Layer{
     pub (crate) fn new() -> Self{
@@ -50,26 +57,42 @@ impl Layer{
 
         Self
         {
-            layer : Vec::new(),
-
+            layer  : Vec::new(),
+            weights: Vec::new()
         }
 
     }
-
-    fn fill_layer(&mut self){
-
+    fn set_layer_weights(&mut self , weights : Vec<f64>){
+        for weight in weights{
+            self.weights.push(weight);
+        }
     }
-    fn calculate_z(&mut self){
-        let a = 0.0;
-        for (index ,neuron) in self.layer.enumerate(){
-            if index == 0{
-                a += neuron.z;
-            }
-            if index > 0{
-                a += neuron.z - self.layer[index] + self.layer[index].b;
-            }
+    fn fill_layer(&mut self , neuron_quantity : i32){
+        for i in 0..neuron_quantity{
+            let mut neuron = Neuron::new();
+            let mut rng: SmallRng = rand::make_rng();
+            let weights_copy : Vec<f64> = self.weights.clone();
+            let mut weights_last : Vec<f64> = self.weights.clone();
             
+            weights_last.clear();
+            for weight in weights_copy{
+                weights_last.push(weight+(rng.random_range(-1.0..=1.0)) * 2.0 - 1.0);
+            }
+            neuron.set_neuron(weights_last);
+            
+            
+            self.layer.push(neuron);
         }
+    }
+
+    fn calculate_z(&mut self , layer_data : Vec<f64>) -> Vec<f64>{
+        let a = 0.0;
+        let mut results: Vec<f64> = Vec::new();
+        for neuron in self.layer.iter_mut() {
+            let neuron_copy = neuron.calculate_vector(layer_data.clone());
+            results.push(neuron_copy);
+        }
+        return results;
     }
 }
 struct NeuronNetwork{
@@ -80,18 +103,9 @@ struct NeuronNetwork{
     angle          : f64,
     angle_velocity : f64,
     // Setting neuron weights
+    layer : Layer,
 
-    w1             : f64,
-    w2             : f64,
-    w3             : f64,
-    w4             : f64,
-    weight_n       : f64,
-    weights_list   : Vec<f64>,
 
-    // Setting Neuron
-    S_list         : Vec<f64>,
-    z              : f64,
-    b              : f64 
 }
 impl NeuronNetwork{
     pub (crate) fn new() -> Self{
@@ -101,15 +115,7 @@ impl NeuronNetwork{
             cart_velocity : 0.0,
             angle : 0.0,
             angle_velocity : 0.0,
-
-            w1 : 0.0,
-            w2 : 0.0,
-            w3 : 0.0,
-            w4 : 0.0,
-            weights_list  : 0.0,
-            S_list : 0.0,
-            z  : 0.0,
-            b : 0.0,
+            layer : Layer::new(),
         }
     }
     fn get_variables(&mut self , cartx : f64 , cart_velocity: f64 , pole_angle : f64 , angle_velocity : f64){
@@ -118,10 +124,6 @@ impl NeuronNetwork{
         self.angle = pole_angle;
         self.angle_velocity = angle_velocity;
     }
-    fn set_weights(&mut self , weights : Vec<f64>){
-        for weight in weights{
-            self.weights_list.push
-        }
-        
-    }
+
+    
 }
