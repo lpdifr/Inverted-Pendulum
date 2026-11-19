@@ -2,7 +2,7 @@ import pygame
 import glfw
 from OpenGL.GL import *
 import sys
-
+import numpy as np
 import random
 from gen_saver import SaveLoadGen
 
@@ -12,6 +12,10 @@ from cart_module import Cart
 from neuralnetwork_module import NerualNetwork
 from simulation_module import Simulation
 from units_module import Units , Unit
+import rust_module
+from rust_module import Simulation
+
+
 pygame.init()
 
 glfw.init()
@@ -23,8 +27,6 @@ slg = SaveLoadGen()
 screen = glfw.create_window(1700 , 900,  "Inverted Pendulum" , None , None)
 glfw.set_window_pos(screen , 100,100) 
 glfw.make_context_current(screen)
-#screen = pygame.display.set_mode((1700, 900))
-#pygame.display.set_caption("Inverted Pendulum")
 glViewport(0 , 0 , 1700 , 900)
 glMatrixMode(GL_PROJECTION)
 glLoadIdentity()
@@ -55,14 +57,16 @@ running = True
 clock = pygame.time.Clock()
 
 
-
+units_quantity = 10000
 # Inicialization Systems
 world = Environment()
+
+buffer = np.zeros((units_quantity, 6), dtype=np.float64)
 
 
 # Best unit : [-9.117011746541309, 4.569619100723747, -7.344724531657647, -5.944618933983124]
 units = Units(world)
-units.CreateUnits(10000 , slg.LoadLastGen()['weights'] , random_change=(-10.0 , 10.0))#type:ignore
+units.CreateUnits(units_quantity , slg.LoadLastGen()['weights'] , random_change=(-10.0 , 10.0))#type:ignore
 
 # Resrt flag
 if_reset = 0

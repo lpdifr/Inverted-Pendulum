@@ -226,12 +226,14 @@ impl Unit{
     }
 }
 
-
+#[pyclass]
 struct Simulation{
     units : Vec<Unit>,
 
 }
+#[pymethods]
 impl Simulation{
+    #[new]
     pub(crate) fn new() -> Self{
         Self{
             units : Vec::new()
@@ -280,7 +282,8 @@ fn main(weights : Vec<f64>) {
 }
 
 #[pymodule]
-fn phisics_module(py: Python, m: &Bound<'_, PyModule>) -> PyResult<()> {
+fn rust_module(py: Python, m: &Bound<'_, PyModule>) -> PyResult<()> {
+    m.add_class::<Simulation>()?;
     m.add_function(wrap_pyfunction!(main , m)?)?;
     
 

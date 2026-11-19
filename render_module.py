@@ -2,6 +2,7 @@ import glfw
 from OpenGL.GL import *
 import math
 
+
 class render:
         def __init__(self ):
             self.width , self.height = 200 , 100 #Cart width height

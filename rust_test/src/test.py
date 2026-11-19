@@ -1,2 +1,1 @@
-import phisics_module
-phisics_module.phisics_module()
+import rust_modu
