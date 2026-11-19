@@ -88,7 +88,7 @@ impl ScoreSystem{
             SSEI: settings,
          }
     }
-    pub(crate) fn check_situatione(&mut self, cart: &mut Cart, pole: &mut Pole){
+    pub(crate) fn check_situation(&mut self, cart: &mut Cart, pole: &mut Pole){
 
         // Setting default score values
         

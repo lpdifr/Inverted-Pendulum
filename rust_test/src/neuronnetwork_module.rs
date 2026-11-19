@@ -128,6 +128,7 @@ impl NeuronNetwork{
         self.layer.set_layer_weights(weights);
         self.layer.fill_layer(4);
     }
+
     pub (crate)fn get_variables(&mut self , cartx : f64 , cart_velocity: f64 , pole_angle : f64 , angle_velocity : f64){
         self.cartx = cartx;
         self.cart_velocity = cart_velocity;

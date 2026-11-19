@@ -94,6 +94,7 @@ struct Unit{
     cart : Cart,
     pole : Pole,
     score: ScoreSystem,
+    nn : NeuronNetwork
 }
 
 impl Pole {
@@ -133,7 +134,7 @@ impl Pole {
 
     // Normalizing values
     fn normalize_values(&mut self){
-        self.radians_normal = ((self.angle + std::f64::consts::PI).rem_euclid((2.0 * std::f64::consts::PI)-std::f64::consts::PI)/std::f64::consts::PI);
+        self.radians_normal = ((self.angle + std::f64::consts::PI).rem_euclid((2.0 * std::f64::consts::PI))-std::f64::consts::PI)/std::f64::consts::PI;
     }
 
     // Calculation endpole x , y
@@ -194,7 +195,8 @@ impl Unit{
     fn new() -> Self {
         Self { cart: Cart::new(),
                pole: Pole::new(), 
-               score:ScoreSystem::new()
+               score:ScoreSystem::new(),
+               nn:NeuronNetwork::new()
             }
     }
     fn reset_unit(&mut self){
@@ -208,8 +210,12 @@ impl Unit{
         
     }
     fn step(&mut self){
+        self.nn.get_variables(self.cart.cartx, self.cart.velocity, self.pole.angle, self.pole.angle_velocity);
+        self.nn.normalize_values();
+        self.cart.force = self.nn.calculate_action().clone() * 3000.0;
+
         self.calculate_phisics();
-        self.score.check_situatione(&mut self.cart, &mut self.pole);
+        self.score.check_situation(&mut self.cart, &mut self.pole);
         self.score.calculate_score()
         
     }
@@ -220,12 +226,16 @@ struct Simulation{
     units : Vec<Unit>
 }
 impl Simulation{
-    fn create_simulation(&mut self , units_quantity: i32){
+    fn create_simulation(&mut self , units_quantity: i32 ,weights_set : Vec<f64>){
         self.units = Vec::with_capacity(10_000);
         for _ in 0.. units_quantity{
             let mut unit = Unit::new();
+
+            
+            unit.nn.init_network(weights_set.clone());
             unit.cart.set_default();
             unit.pole.set_default(&unit.cart);
+            self.units.push(unit);
         }
     }
     fn step(&mut self){
