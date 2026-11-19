@@ -3,6 +3,7 @@ use pyo3::prelude::*;
 use pyo3::wrap_pyfunction;
 mod score_module;
 mod neuronnetwork_module;
+use neuronnetwork_module::NeuronNetwork;
 use crate::score_module::ScoreSystem;
 #[pyclass]
 struct Screen{

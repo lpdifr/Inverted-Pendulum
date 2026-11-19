@@ -1,4 +1,4 @@
-use std::result;
+use std::{f64, result, vec};
 
 use rand::RngExt;
 use rand::rngs::SmallRng;
@@ -124,17 +124,23 @@ impl NeuronNetwork{
             pend_data : Vec::new()
         }
     }
-    fn init_network(&mut self , weights : Vec<f64>){
+    pub (crate)fn init_network(&mut self , weights : Vec<f64>){
         self.layer.set_layer_weights(weights);
         self.layer.fill_layer(4);
     }
-    fn get_variables(&mut self , cartx : f64 , cart_velocity: f64 , pole_angle : f64 , angle_velocity : f64){
+    pub (crate)fn get_variables(&mut self , cartx : f64 , cart_velocity: f64 , pole_angle : f64 , angle_velocity : f64){
         self.cartx = cartx;
         self.cart_velocity = cart_velocity;
         self.angle = pole_angle;
         self.angle_velocity = angle_velocity;
     }
-    fn set_data_vector(&mut self){
+    pub(crate) fn normalize_values(&mut self){
+        self.cartx = (self.cartx - 750.0)/750.0;
+        self.angle = ((self.angle + std::f64::consts::PI).rem_euclid((2.0 * std::f64::consts::PI))-std::f64::consts::PI)/std::f64::consts::PI;
+        self.cart_velocity = self.cart_velocity/300.0;
+        self.angle_velocity = self.angle_velocity/10.0;
+    }
+    pub (crate)fn set_data_vector(&mut self){
         self.pend_data.clear();
         self.pend_data.push(self.cartx);
         self.pend_data.push(self.cart_velocity);
@@ -142,10 +148,11 @@ impl NeuronNetwork{
         self.pend_data.push(self.angle_velocity);
 
     }
-    fn calculate_action(&mut self) -> Vec<f64>{
+    pub (crate)fn calculate_action(&mut self) ->f64{
         self.set_data_vector();
         let vector = self.layer.calculate_z(self.pend_data.clone());
-        return vector;
+        let result = vector.iter().sum::<f64>()/(vector.iter().len() as f64);
+        return result;
 
     }
     

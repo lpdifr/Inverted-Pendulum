@@ -1,3 +1,4 @@
+mod neuronnetwork_module;
 use neuronnetwork_module::NeuronNetwork;
 fn main(){
     let mut nn = NeuronNetwork::new();
@@ -9,6 +10,7 @@ fn main(){
     weights.push(-5.944618933983124);
     nn.init_network(weights);
     nn.get_variables(700.0, 0.0, std::f64::consts::PI, 0.0);
-    let mut result = nn.calculate_action().clone();
+    nn.normalize_values();
+    let result = nn.calculate_action().clone();
     println!("{:?}", result);
 }
