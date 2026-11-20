@@ -1,6 +1,7 @@
 
 use pyo3::prelude::*;
 use pyo3::wrap_pyfunction;
+use numpy::PyReadwriteArray2;
 mod score_module;
 mod neuronnetwork_module;
 use neuronnetwork_module::NeuronNetwork;
@@ -251,9 +252,13 @@ impl Simulation{
             self.units.push(unit);
         }
     }
-    pub(crate)fn step(&mut self){
-        for unit in &mut self.units{
+    pub(crate)fn step(&mut self,mut buffer: PyReadwriteArray2<'_, f64>){
+        let mut data = buffer.as_array_mut();
+        for (index , unit) in &mut self.units.iter_mut().enumerate(){
             unit.step();
+            data[[index , 0]] = unit.cart.cartx;
+            data[[index , 1]] = unit.pole.x1;
+            data[[index , 2]] = unit.pole.y1;
             
         }
     } 

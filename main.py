@@ -61,7 +61,7 @@ units_quantity = 10000
 # Inicialization Systems
 world = Environment()
 
-buffer = np.zeros((units_quantity, 6), dtype=np.float64)
+buffer = np.zeros((units_quantity, 3), dtype=np.float64)
 
 
 # Best unit : [-9.117011746541309, 4.569619100723747, -7.344724531657647, -5.944618933983124]

@@ -33,7 +33,7 @@ class Cart:
     def PhisicsCalculate(self):
         
         # Debuging F
-        self.F = self.FDebug(self.F) 
+        #self.F = self.FDebug(self.F) 
 
         # Calculating Movement speed including oppositioning of weight
         self.a = (self.F - self.world.b*self.v + self.mainpole.M*self.mainpole.L*self.mainpole.angle_speed**2 * math.sin(self.mainpole.angle_of_pole) - self.mainpole.M* self.world.gravity *math.sin(self.mainpole.angle_of_pole)*math.cos(self.mainpole.angle_of_pole))/(self.cartmass + self.mainpole.M*math.sin(self.mainpole.angle_of_pole)**2.)#type:ignore
