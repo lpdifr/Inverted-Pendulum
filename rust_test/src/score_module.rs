@@ -70,13 +70,13 @@ impl SSEI_sys{
 
 }
 pub(crate) struct ScoreSystem{
-    score : f64,
+    pub(crate) score : f64,
     SSEI  : SSEI_sys,
 }
 impl ScoreSystem{
     pub(crate) fn new() -> Self{
         let json_settigns = include_str!("score_manual.json");
-        let settings_loaded = false;
+
         
         let settings : SSEI_sys = 
             serde_json::from_str(json_settigns)

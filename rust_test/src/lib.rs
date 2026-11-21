@@ -240,6 +240,21 @@ impl Simulation{
             units : Vec::new()
         }
     }
+    
+    pub(crate) fn find_best_unit(&mut self) -> Option<&Unit>{
+        let mut best_unit_score = 0.0;
+        let mut best_unit: Option<&Unit> = None;
+
+        for unit_copy in self.units.iter_mut(){
+            if unit_copy.score.score > best_unit_score{
+                best_unit_score = unit_copy.score.score;
+                best_unit = Some(unit_copy);
+            }
+
+        }
+        return best_unit;
+    }
+
     fn create_simulation(&mut self , units_quantity: i32 ,weights_set : Vec<f64>){
         self.units = Vec::with_capacity(10_000);
         for _ in 0.. units_quantity{

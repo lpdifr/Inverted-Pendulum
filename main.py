@@ -80,12 +80,13 @@ def MiddleFPS(listoffps):
     return fpssum/len(listoffps)
 showfps = 3000
 fpslist = []
+world.frame_counter = 0.083333
 while not glfw.window_should_close(screen):
     fpslist.append(clock.get_fps())
     glfw.poll_events()
     # Timer update
     frame_counter = pygame.time.get_ticks()
-    world.frame_counter = frame_counter
+
 
     # Event check
     for event in pygame.event.get():

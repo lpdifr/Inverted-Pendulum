@@ -48,6 +48,7 @@ class Units:
         self.world = world
         self.render = render()
         self.gens_created = 0
+        self.max_render = 100
     def CreateUnits(self , quantity , weights , random_change:tuple = (-0.1 , 0.1)):
         # Reduce or increase weigths coeficient
         acof , bcof = random_change
@@ -81,24 +82,25 @@ class Units:
             unit.simulation.step()
         # Drawing Cart
         a = 0
+        
         if self.world.render:
             glBegin(GL_QUADS)
             for unit in self.units:
-                if a == 10000:
+                if a == self.max_render:
                     break
                 self.render.cart(unit.simulation.cart.cartx , unit.simulation.cart.carty)
                 a += 1
             glEnd()
             a = 0
             for unit in self.units:
-                if a == 10000:
+                if a == self.max_render:
                     break
                 self.render.weight(unit.simulation.pole.x1 , unit.simulation.pole.y1)
                 a += 1
             glBegin(GL_LINES)
             a = 0
             for unit in self.units:
-                if a == 10000:
+                if a == self.max_render:
                     break
                 self.render.pole_line(
                     unit.simulation.pole.polepointx,
