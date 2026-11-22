@@ -22,9 +22,9 @@ impl Neuron{
             a     : 0.0,
         }
     } 
-    fn set_neuron(&mut self , weights : Vec<f64>){
-        let mut rng: SmallRng = rand::make_rng();
-        self.b = (rng.random_range(-1.0..=1.0));
+    fn set_neuron(&mut self , weights : Vec<f64> ,bias: f64){
+
+        self.b = bias;
         self.weights_list.clear();
         for weight in weights{
             self.weights_list.push(weight);
@@ -51,7 +51,8 @@ impl Neuron{
 }
 struct Layer{
     layer   : Vec<Neuron>,
-    weights : Vec<f64>
+    weights : Vec<f64>,
+    pub(crate)bias   : Vec<f64>
 }
 impl Layer{
     pub (crate) fn new() -> Self{
@@ -60,7 +61,8 @@ impl Layer{
         Self
         {
             layer  : Vec::new(),
-            weights: Vec::new()
+            weights: Vec::new(),
+            bias   : Vec::new(),
         }
 
     }
@@ -71,17 +73,13 @@ impl Layer{
         }
     }
     fn fill_layer(&mut self , neuron_quantity : i32){
-        for i in 0..neuron_quantity{
+        for i  in 0..neuron_quantity{
             let mut neuron = Neuron::new();
-            let mut rng: SmallRng = rand::make_rng();
-            let weights_copy : Vec<f64> = self.weights.clone();
-            let mut weights_last : Vec<f64> = self.weights.clone();
+
+            let weights_last : Vec<f64> = self.weights.clone();
             
-            weights_last.clear();
-            for weight in weights_copy{
-                weights_last.push(weight+(rng.random_range(-1.0..=1.0)));
-            }
-            neuron.set_neuron(weights_last);
+
+            neuron.set_neuron(weights_last ,self.bias[i as usize]);
             
             
             self.layer.push(neuron);
