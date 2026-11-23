@@ -51,8 +51,8 @@ impl Neuron{
 }
 struct Layer{
     layer   : Vec<Neuron>,
-    weights : Vec<f64>,
-    pub(crate)bias   : Vec<f64>
+    weights : Vec<Vec<f64>>,
+
 }
 impl Layer{
     pub (crate) fn new() -> Self{
@@ -62,25 +62,21 @@ impl Layer{
         {
             layer  : Vec::new(),
             weights: Vec::new(),
-            bias   : Vec::new(),
+           
         }
 
     }
-    fn set_layer_weights(&mut self , weights : Vec<f64> ){
+    fn set_layer_weights(&mut self , weights : Vec<Vec<f64>> ,  ){
         self.weights.clear();
         for weight in weights{
             self.weights.push(weight);
         }
     }
-    fn fill_layer(&mut self , neuron_quantity : i32){
+    fn fill_layer(&mut self , neuron_quantity : i32 ,bias : Vec<f64>){
         for i  in 0..neuron_quantity{
             let mut neuron = Neuron::new();
 
-            let weights_last : Vec<f64> = self.weights.clone();
-            
-
-            neuron.set_neuron(weights_last ,self.bias[i as usize]);
-            
+            neuron.set_neuron(self.weights[i as usize].clone() , bias[i as usize]);
             
             self.layer.push(neuron);
         }
@@ -122,9 +118,10 @@ impl NeuronNetwork{
             pend_data : Vec::new()
         }
     }
-    pub (crate)fn init_network(&mut self , weights : Vec<f64>){
+    pub (crate)fn init_network(&mut self , weights : Vec<Vec<f64>> , bias : Vec<f64>){
         self.layer.set_layer_weights(weights);
-        self.layer.fill_layer(4);
+        self.layer.fill_layer(4 , bias);
+
     }
 
     pub (crate)fn get_variables(&mut self , cartx : f64 , cart_velocity: f64 , pole_angle : f64 , angle_velocity : f64){

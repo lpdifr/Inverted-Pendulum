@@ -232,17 +232,9 @@ struct Simulation{
     units : Vec<Unit>,
 
 }
-#[pymethods]
-impl Simulation{
-    #[new]
-    pub(crate) fn new() -> Self{
-        Self{
-            units : Vec::new()
-        }
-    }
-    
+impl Simulation {
     pub(crate) fn find_best_unit(&mut self) -> Option<&Unit>{
-        let mut best_unit_score = 0.0;
+        let mut best_unit_score = f64::NEG_INFINITY;
         let mut best_unit: Option<&Unit> = None;
 
         for unit_copy in self.units.iter_mut(){
@@ -254,14 +246,25 @@ impl Simulation{
         }
         return best_unit;
     }
+}
+#[pymethods]
+impl Simulation{
+    #[new]
+    pub(crate) fn new() -> Self{
+        Self{
+            units : Vec::new()
+        }
+    }
+    
 
-    fn create_simulation(&mut self , units_quantity: i32 ,weights_set : Vec<f64>){
+
+    fn create_simulation(&mut self , units_quantity: i32 ,weights_set : Vec<Vec<f64>> , bias : Vec<f64>){
         self.units = Vec::with_capacity(10_000);
         for _ in 0.. units_quantity{
             let mut unit = Unit::new();
 
             
-            unit.nn.init_network(weights_set.clone());
+            unit.nn.init_network(weights_set.clone() , bias.clone());
             unit.cart.set_default();
             unit.pole.set_default(&unit.cart);
             self.units.push(unit);
@@ -294,10 +297,10 @@ impl Simulation{
 
 
 #[pyfunction]
-fn main(weights : Vec<f64>) {
+fn main(weights : Vec<Vec<f64>> , bias : Vec<f64>) {
     
     let mut simulation = Simulation::new();
-    simulation.create_simulation(10000, weights.clone());
+    simulation.create_simulation(10000, weights.clone() , bias.clone());
     
 }
 

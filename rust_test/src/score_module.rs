@@ -118,6 +118,8 @@ impl ScoreSystem{
 
         // By degrees bonus
         if self.SSEI.by_degrees_bonus > 0.0 && self.SSEI.MFDB{ self.score += self.SSEI.by_degrees_bonus;  }
+        
+    
         self.SSEI.set_default();
         return self.score.clone();
     }
