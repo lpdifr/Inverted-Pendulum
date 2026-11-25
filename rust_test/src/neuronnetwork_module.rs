@@ -151,5 +151,8 @@ impl NeuronNetwork{
         return result;
 
     }
+    pub(crate)fn unit_weights_return (&self) -> Vec<Vec<f64>>{
+        return self.layer.weights.clone();
+    }
     
 }

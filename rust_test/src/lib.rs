@@ -1,4 +1,5 @@
-
+use rand::RngExt;
+use rand::rngs::SmallRng;
 use pyo3::prelude::*;
 use pyo3::wrap_pyfunction;
 use numpy::PyReadwriteArray2;
@@ -10,22 +11,20 @@ use crate::score_module::ScoreSystem;
 struct Screen{
     width : f64,
     height: f64,
-    fps   : f32,
+
 }
 impl Screen {
     fn new() -> Self{
-        Self { width: 1700.0, height: 900.0, fps: 60.0 }
+        Self { width: 1700.0, height: 900.0}
     }
 }
 #[pyclass]
 struct World{
     // Setting screen
     screen  : Screen,
-    tick    : u32, 
     gravity : f64, // Gravity 900 pixels per
-    k       : u8,  // Env resist
     delta_t : f64, // Delta time
-    frame   : u32, // Frame counter
+
 
     b       : f64
 }
@@ -33,11 +32,9 @@ impl World {
     fn new() -> Self{
         Self { 
                 screen: Screen::new(),
-                tick: 0,
+
                 gravity: 900.0,
-                k: 4, 
                 delta_t: 0.0083333,
-                frame: 0,
                 b: 4.0
             }
     }
@@ -85,7 +82,7 @@ struct Pole{
     alpha_angle     : f64,       // Alpha angle
 
     // Raw values
-    raw_pole_angle  : f64,
+    //________________________
     // Normalized values
     radians_normal  : f64,
 }
@@ -113,7 +110,6 @@ impl Pole {
             length: 0.0,
             angle_velocity: 0.0,
             alpha_angle: 0.0,
-            raw_pole_angle: 0.0,
             radians_normal: 0.0
         }
     }
@@ -136,7 +132,7 @@ impl Pole {
 
     // Normalizing values
     fn normalize_values(&mut self){
-        self.radians_normal = ((self.angle + std::f64::consts::PI).rem_euclid((2.0 * std::f64::consts::PI))-std::f64::consts::PI)/std::f64::consts::PI;
+        self.radians_normal = ((self.angle + std::f64::consts::PI).rem_euclid(2.0 * std::f64::consts::PI)-std::f64::consts::PI)/std::f64::consts::PI;
     }
 
     // Calculation endpole x , y
@@ -177,7 +173,7 @@ impl Cart {
     fn set_default(&mut self){
         self.cartx = (self.world.screen.width /2.0) - (self.width  / 2.0);
         self.carty = (self.world.screen.height /2.0) + 300.0;
-        self.polex = (self.world.screen.width / 2.0);
+        self.polex = self.world.screen.width / 2.0;
         self.poley = ((self.world.screen.height / 2.0) + 300.0) as f64;
         self.velocity = 0.0;
         self.cartmass = 5.0;
@@ -261,10 +257,19 @@ impl Simulation{
     fn create_simulation(&mut self , units_quantity: i32 ,weights_set : Vec<Vec<f64>> , bias : Vec<f64>){
         self.units = Vec::with_capacity(10_000);
         for _ in 0.. units_quantity{
+            let mut rng: SmallRng = rand::make_rng();
             let mut unit = Unit::new();
-
-            
-            unit.nn.init_network(weights_set.clone() , bias.clone());
+            let mut weights_new =  weights_set.clone();
+            let mut bias_new = bias.clone();
+            for weights in weights_new.iter_mut(){
+                for weight in weights{
+                    *weight += rng.random_range(-1.0..=1.0);
+                }
+            }
+            for b in bias_new.iter_mut(){
+                *b += rng.random_range(-1.0..=1.0)
+            }
+            unit.nn.init_network(weights_new , bias_new);
             unit.cart.set_default();
             unit.pole.set_default(&unit.cart);
             self.units.push(unit);
