@@ -151,8 +151,14 @@ impl NeuronNetwork{
         return result;
 
     }
-    pub(crate)fn unit_weights_return (&self) -> Vec<Vec<f64>>{
+    pub(crate)fn return_weights (&self) -> Vec<Vec<f64>>{
         return self.layer.weights.clone();
     }
-    
+    pub(crate)fn return_bias (&self) -> Vec<f64>{
+        let mut bias_list = Vec::new();
+        for neuron in self.layer.layer.iter().clone(){
+            bias_list.push(neuron.b);
+        }
+        return bias_list;
+    }
 }

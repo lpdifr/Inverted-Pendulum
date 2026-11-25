@@ -1,3 +1,4 @@
+use pyo3::types::tuple;
 use rand::RngExt;
 use rand::rngs::SmallRng;
 use pyo3::prelude::*;
@@ -229,7 +230,7 @@ struct Simulation{
 
 }
 impl Simulation {
-    pub(crate) fn find_best_unit(&mut self) -> Option<&Unit>{
+    pub(crate) fn find_best_unit(&mut self) -> (Vec<Vec<f64>>, Vec<f64>){
         let mut best_unit_score = f64::NEG_INFINITY;
         let mut best_unit: Option<&Unit> = None;
 
@@ -237,10 +238,16 @@ impl Simulation {
             if unit_copy.score.score > best_unit_score{
                 best_unit_score = unit_copy.score.score;
                 best_unit = Some(unit_copy);
+                
             }
 
         }
-        return best_unit;
+
+        let unit = best_unit.expect("Generation is empty");
+
+        return (unit.nn.return_weights(), unit.nn.return_bias());
+
+        
     }
 }
 #[pymethods]
