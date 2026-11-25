@@ -1,5 +1,5 @@
 import pickle
-
+import os
 from datetime import datetime , date
 
 class SaveLoadGen:
@@ -46,7 +46,7 @@ class SaveLoadGen:
                 log.write(f"On {date.today()} ; In {now.strftime("%H:%M:%S")}; Loading last generation file was not successful in NoneManualMode" + "\n")
             else:
                 log.write(f"On {date.today()} ; In {now.strftime("%H:%M:%S")}; Loading last generation file was not successful in ManualMode" + "\n")
-            return 0
+            return
 
         if manual == "None":
             last_gen_file.close()
@@ -58,7 +58,7 @@ class SaveLoadGen:
         return data
 
     # Save gen function
-    def SaveGen(self , weights):
+    def SaveGen(self , weights , bias):
         now = datetime.now()
         log = open(self.save_folder+"/"+self.log_name , "a")
 
@@ -73,7 +73,8 @@ class SaveLoadGen:
         # Saving gen data with new gen index
         new_gen_data = {
             "gen" : gen,
-            "weights": weights
+            "weights": weights,
+            "bias" : bias
             }
         log.write(f"On {date.today()} ; In {now.strftime("%H:%M:%S")}; Prepearing new gen data was successful" + "\n")
         # Creating new gen file
@@ -93,6 +94,7 @@ class SaveLoadGen:
             log.write(f"On {date.today()} ; In {now.strftime("%H:%M:%S")}; Changing was successful." + "\n")
         except:
             log.write(f"On {date.today()} ; In {now.strftime("%H:%M:%S")}; Changing was not successful."+ "\n")
+            return
         log.write(f"On {date.today()} ; In {now.strftime("%H:%M:%S")}; Prepearing to change lastgen.lg second time..." + "\n")
         pickle.dump(f"gen_{gen}" , lastgen_list)
         log.write(f"On {date.today()} ; In {now.strftime("%H:%M:%S")}; Changing was successful."+ "\n")
@@ -112,7 +114,8 @@ class SaveLoadGen:
         pickle.dump(raw_data , raw_gen)
         last_gen_file.close()
         raw_gen.close()
-slg = SaveLoadGen()
+
 def FIX_LAST_GEN_FILE(last_working_gen):
+    slg = SaveLoadGen()
     a = slg.LoadLastGen(last_working_gen)
-    slg.SaveManual(a["weights"] , last_working_gen + 1)
+    slg.SaveManual(a["weights"] ,a["bias"], last_working_gen + 1)
