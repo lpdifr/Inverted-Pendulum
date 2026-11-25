@@ -106,6 +106,9 @@ impl ScoreSystem{
         if pole.angle_velocity < 0.0 && cart.a > 0.0 ||  pole.angle_velocity > 0.0 && cart.a < 0.0{
             self.SSEI.by_stopping = true
         }
+        if cart.cartx < -200.0 || cart.cartx > 1900.0{
+            self.score = 0.0;
+        }
         
     }
     pub(crate) fn calculate_score(&mut self) -> f64{
@@ -122,5 +125,8 @@ impl ScoreSystem{
     
         self.SSEI.set_default();
         return self.score.clone();
+    }
+    pub(crate) fn reset_score(&mut self){
+        self.score = 0.0;
     }
 }

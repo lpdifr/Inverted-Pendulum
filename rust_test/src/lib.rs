@@ -229,7 +229,17 @@ struct Simulation{
     units : Vec<Unit>,
 
 }
-impl Simulation {
+
+#[pymethods]
+impl Simulation{
+    #[new]
+    pub(crate) fn new() -> Self{
+        Self{
+            units : Vec::new()
+        }
+    }
+    
+
     pub(crate) fn find_best_unit(&mut self) -> (Vec<Vec<f64>>, Vec<f64>){
         let mut best_unit_score = f64::NEG_INFINITY;
         let mut best_unit: Option<&Unit> = None;
@@ -249,18 +259,6 @@ impl Simulation {
 
         
     }
-}
-#[pymethods]
-impl Simulation{
-    #[new]
-    pub(crate) fn new() -> Self{
-        Self{
-            units : Vec::new()
-        }
-    }
-    
-
-
     fn create_simulation(&mut self , units_quantity: i32 ,weights_set : Vec<Vec<f64>> , bias : Vec<f64>){
         self.units = Vec::with_capacity(10_000);
         for _ in 0.. units_quantity{
@@ -282,6 +280,16 @@ impl Simulation{
             self.units.push(unit);
         }
     }
+    pub(crate)fn reset_simulation(&mut self) -> (Vec<Vec<f64>>, Vec<f64>){
+        let mut best_unit =self.find_best_unit();
+        for unit in self.units.iter_mut(){
+            unit.cart.set_default();
+            unit.pole.set_default(&unit.cart);
+            unit.score.reset_score();
+        }
+        
+        return best_unit;
+    }
     pub(crate)fn step(&mut self,mut buffer: PyReadwriteArray2<'_, f64>){
         let mut data = buffer.as_array_mut();
         for (index , unit) in &mut self.units.iter_mut().enumerate(){
@@ -292,7 +300,7 @@ impl Simulation{
             
         }
     } 
-
+    
 }
 
 
