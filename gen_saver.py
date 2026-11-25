@@ -99,14 +99,15 @@ class SaveLoadGen:
         
         lastgen_list.close()
     # Saving raw data to init save system
-    def SaveManual(self , weights , gen):
+    def SaveManual(self , weights , bias , gen):
         last_gen_file = open(self.save_folder+"/"+"lastgen.lg" , "wb")
         raw_name = "gen_" + str(gen)
         pickle.dump(raw_name , last_gen_file)
         raw_gen = open(self.save_folder+"/"+raw_name+self.gen_ext , "wb")
         raw_data = {
             "gen" : gen,
-            "weights" : weights
+            "weights" : weights,
+            "bias" : bias
             }
         pickle.dump(raw_data , raw_gen)
         last_gen_file.close()
