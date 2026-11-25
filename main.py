@@ -10,7 +10,7 @@ from gen_saver import SaveLoadGen
 from pole_module import Pole
 from cart_module import Cart
 from neuralnetwork_module import NerualNetwork
-from simulation_module import Simulation
+#from simulation_module import Simulation
 from units_module import Units , Unit
 import rust_module
 from rust_module import Simulation
@@ -19,6 +19,7 @@ from rust_module import Simulation
 pygame.init()
 
 glfw.init()
+
 # Inicialization SaveLoadGen
 slg = SaveLoadGen()
 
@@ -60,7 +61,17 @@ clock = pygame.time.Clock()
 units_quantity = 10000
 # Inicialization Systems
 world = Environment()
+simulation = Simulation()
+simulation.create_simulation(units_quantity ,
+                             [
+                                [-9.117011746541309, 4.569619100723747, -7.344724531657647, -5.944618933983124],
+                                [-9.117011746541309, 4.569619100723747, -7.344724531657647, -5.944618933983124],
+                                [-9.117011746541309, 4.569619100723747, -7.344724531657647, -5.944618933983124],
+                                [-9.117011746541309, 4.569619100723747, -7.344724531657647, -5.944618933983124],
 
+                             ],
+                            [1.0 , 0.5 , -1.2 , -0.1]
+                             )
 buffer = np.zeros((units_quantity, 3), dtype=np.float64)
 
 
@@ -110,7 +121,7 @@ while not glfw.window_should_close(screen):
     world.dt = clock.tick(60)/1000#type:ignore
 
 
-    units.SimulationStep()
+    simulation.step()
     glfw.swap_buffers(screen)
 
 
