@@ -14,7 +14,7 @@ from neuralnetwork_module import NerualNetwork
 from units_module import Units , Unit
 import rust_module
 from rust_module import Simulation
-
+from render_module import Render
 
 pygame.init()
 
@@ -78,7 +78,7 @@ buffer = np.zeros((units_quantity, 3), dtype=np.float64)
 # Best unit : [-9.117011746541309, 4.569619100723747, -7.344724531657647, -5.944618933983124]
 units = Units(world)
 units.CreateUnits(units_quantity , slg.LoadLastGen()['weights'] , random_change=(-10.0 , 10.0))#type:ignore
-
+render = Render()
 # Resrt flag
 if_reset = 0
 
@@ -119,9 +119,14 @@ while not glfw.window_should_close(screen):
     glClear(GL_COLOR_BUFFER_BIT)
 
     world.dt = clock.tick(60)/1000#type:ignore
+    for unit_data in buffer:
+        glBegin(GL_QUADS)
+        render.cart(unit_data[0] , 700)
+        glEnd()
+        render.pole_line(unit_data[0] + 100 , 700 , unit_data[1] , unit_data[2])
+        render.weight(unit_data[1] , unit_data[2])
 
-
-    simulation.step()
+    simulation.step(buffer)
     glfw.swap_buffers(screen)
 
 

@@ -3,7 +3,7 @@ from OpenGL.GL import *
 import math
 
 
-class render:
+class Render:
         def __init__(self ):
             self.width , self.height = 200 , 100 #Cart width height
             self.radius = 15
