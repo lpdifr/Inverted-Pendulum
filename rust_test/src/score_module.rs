@@ -69,8 +69,7 @@ impl SSEI_sys{
         self.by_balance       = false;
         self.by_stopping      = false;
         self.by_degrees_bonus = 0.0;
-        self.old_pole_speed   = 0.0;
-        self.stopping_delta   = 0.0;
+
     }
 
 

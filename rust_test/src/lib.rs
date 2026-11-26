@@ -124,7 +124,7 @@ impl Pole {
 
         self.length         =  145.0;
 
-        self.angle          =  std::f64::consts::PI;
+        self.angle          =  5.0_f64.to_radians();
         self.angle_velocity =    0.0;
         self.alpha_angle    =    0.0;
         self.endofpole();
@@ -259,14 +259,15 @@ impl Simulation{
 
         
     }
-    fn create_simulation(&mut self , units_quantity: i32 ,weights_set : Vec<Vec<f64>> , bias : Vec<f64>){
+    fn create_simulation(&mut self , units_quantity: i32 ,weights_set : Vec<Vec<f64>> , bias : Vec<f64> , start_angle: f64){
         self.units = Vec::with_capacity(10_000);
         let mut unit = Unit::new();
         let weights_new =  weights_set.clone();
-        let mut bias_new = bias.clone();
+        let bias_new = bias.clone();
         unit.nn.init_network(weights_new , bias_new);
         unit.cart.set_default();
         unit.pole.set_default(&unit.cart);
+        unit.pole.angle = start_angle.to_radians();
         self.units.push(unit);
         for _ in 0.. units_quantity-1{
             let mut rng: SmallRng = rand::make_rng();
@@ -284,6 +285,7 @@ impl Simulation{
             unit.nn.init_network(weights_new , bias_new);
             unit.cart.set_default();
             unit.pole.set_default(&unit.cart);
+            unit.pole.angle = start_angle.to_radians();
             self.units.push(unit);
         }
     }

@@ -60,7 +60,7 @@ if __name__ == "__main__":
     # Inicialization Systems
     world = Environment()
     simulation = Simulation()
-    def CreateRandomSimulation():
+    def CreateRandomSimulation(start_angle : float = 180.0):
         simulation.create_simulation(units_quantity ,
                                     [
                                         [random.uniform(-10.0 , 10.0), random.uniform(-10.0 , 10.0), random.uniform(-10.0 , 10.0), random.uniform(-10.0 , 10.0)],
@@ -71,7 +71,7 @@ if __name__ == "__main__":
                                     ],
                                     [random.uniform(-10.0 , 10.0), random.uniform(-10.0 , 10.0), random.uniform(-10.0 , 10.0), random.uniform(-10.0 , 10.0)],
                                     )
-    CreateRandomSimulation()
+    CreateRandomSimulation(5.0)
     buffer = np.zeros((units_quantity, 3), dtype=np.float64)
 
 

@@ -1,0 +1,6 @@
+>>> quit - exit
+>>> pause - allows to stop simulation
+>>> continue - allows to continue simulation if its paused
+>>> brandnewsim - allows to start brand new simulation with random weights and bias`es
+>>> set - allows to set render range and population
+>>> nextgen - allows to skip timer for NN education

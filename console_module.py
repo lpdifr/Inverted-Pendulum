@@ -11,6 +11,7 @@ class DeveloperConsole:
         self.population = 10000
         self.render_range = multiprocessing.Array("i", [0, 100])
         self.brandnewsim = multiprocessing.Value("b" , False)
+        self.HelpTextPATH = "hf/help_console.txt"
     def ShowConsole(self):
         win32console.FreeConsole()
         win32console.AllocConsole()
@@ -24,7 +25,11 @@ class DeveloperConsole:
             if inp == "quit":
                 self.quit_com.value = True
                 running = False
-                
+            elif inp == "help":
+                textfile = open(self.HelpTextPATH , "r")
+                text = textfile.read()
+                print(text)
+                textfile.close()
             elif inp == "nextgen":
                 print("New generation created.")
             
@@ -68,7 +73,8 @@ class DeveloperConsole:
                     sp = inp.split()
                     self.population = int(sp[len(sp)-1])
                     print(f"Population setted on {self.population}")
-            
+                if "rules" in inp:
+                    pass
             elif inp == "brandnewsim":
                 self.brandnewsim.value = True
                 print("Creating new simulation")
