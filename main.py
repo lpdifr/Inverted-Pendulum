@@ -64,13 +64,13 @@ world = Environment()
 simulation = Simulation()
 simulation.create_simulation(units_quantity ,
                              [
-                                [-9.117011746541309, 4.569619100723747, -7.344724531657647, -5.944618933983124],
-                                [-9.117011746541309, 4.569619100723747, -7.344724531657647, -5.944618933983124],
-                                [-9.117011746541309, 4.569619100723747, -7.344724531657647, -5.944618933983124],
-                                [-9.117011746541309, 4.569619100723747, -7.344724531657647, -5.944618933983124],
+                                [random.uniform(-10.0 , 10.0), random.uniform(-10.0 , 10.0), random.uniform(-10.0 , 10.0), random.uniform(-10.0 , 10.0)],
+                                [random.uniform(-10.0 , 10.0), random.uniform(-10.0 , 10.0), random.uniform(-10.0 , 10.0), random.uniform(-10.0 , 10.0)],
+                                [random.uniform(-10.0 , 10.0), random.uniform(-10.0 , 10.0), random.uniform(-10.0 , 10.0), random.uniform(-10.0 , 10.0)],
+                                [random.uniform(-10.0 , 10.0), random.uniform(-10.0 , 10.0), random.uniform(-10.0 , 10.0), random.uniform(-10.0 , 10.0)],
 
                              ],
-                             [1.0 , 0.5 , -1.2 , -0.1]
+                             [random.uniform(-10.0 , 10.0), random.uniform(-10.0 , 10.0), random.uniform(-10.0 , 10.0), random.uniform(-10.0 , 10.0)],
                              )
 buffer = np.zeros((units_quantity, 3), dtype=np.float64)
 
@@ -78,66 +78,56 @@ buffer = np.zeros((units_quantity, 3), dtype=np.float64)
 # Best unit : [-9.117011746541309, 4.569619100723747, -7.344724531657647, -5.944618933983124]
 
 render = Render()
-# Resrt flag
-if_reset = 0
+
 
 # Timer when reseting simulation
-max_frame = 10000
-def MiddleFPS(listoffps):
-    fpssum = 0
-    for fps in listoffps:
-        fpssum += fps
-    return fpssum/len(listoffps)
+max_frame = 2.5 * 60000
+
 showfps = 3000
-fpslist = []
 gens_created = 0
+
 world.frame_counter = 0.083333
+
+glEnable(GL_BLEND)
+glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+
+
 while not glfw.window_should_close(screen):
-    fpslist.append(clock.get_fps())
-    glfw.poll_events()
+
     # Timer update
     frame_counter = pygame.time.get_ticks()
 
-
-    # Event check
-    for event in pygame.event.get():
-
-        if event.type == pygame.QUIT:
-            running = False
-
-    # If 5-minutes had been past reseting simulation 
-    if frame_counter >= showfps:
-        print(MiddleFPS(fpslist))
-        showfps += 3000
-        fpslist.clear()
         
     if frame_counter >= max_frame:
-        gen = simulation.reset_simulation()
-        slg.SaveGen(gen[0] , gen[1])
-        simulation.create_simulation(units_quantity , *slg.LoadLastGen())
-        max_frame += 10000
+        
+        slg.SaveGen(*simulation.reset_simulation())
+        lastgen = slg.LoadLastGen()
+        simulation.create_simulation(units_quantity , lastgen["weights"] , lastgen["bias"])
+        max_frame += 2.5 * 60000
         gens_created += 1
     
-
+    # Screen Clear
     glClear(GL_COLOR_BUFFER_BIT)
 
+    # Render first 100 units
     world.dt = clock.tick(60)/1000#type:ignore
     for unit_data in buffer[:100]:
-        glBegin(GL_QUADS)
-        render.cart(unit_data[0] , 700)
-        glEnd()
-        glLineWidth(7)
-        glBegin(GL_LINES)
 
-        render.pole_line(unit_data[0] + 100 , 700 , unit_data[1] , unit_data[2])
-        glEnd()
-        render.weight(unit_data[1] , unit_data[2])
+            glBegin(GL_QUADS)
+            render.cart(unit_data[0] , 700)
+            glEnd()
+            glLineWidth(7)
+            glBegin(GL_LINES)
+
+            render.pole_line(unit_data[0] + 100 , 700 , unit_data[1] , unit_data[2])
+            glEnd()
+            render.weight(unit_data[1] , unit_data[2])
+
 
     simulation.step(buffer)
+
+
     glfw.swap_buffers(screen)
-
-
-
 
 
 print(f"Generations created: {gens_created}")

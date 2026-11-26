@@ -261,7 +261,14 @@ impl Simulation{
     }
     fn create_simulation(&mut self , units_quantity: i32 ,weights_set : Vec<Vec<f64>> , bias : Vec<f64>){
         self.units = Vec::with_capacity(10_000);
-        for _ in 0.. units_quantity{
+        let mut unit = Unit::new();
+        let weights_new =  weights_set.clone();
+        let mut bias_new = bias.clone();
+        unit.nn.init_network(weights_new , bias_new);
+        unit.cart.set_default();
+        unit.pole.set_default(&unit.cart);
+        self.units.push(unit);
+        for _ in 0.. units_quantity-1{
             let mut rng: SmallRng = rand::make_rng();
             let mut unit = Unit::new();
             let mut weights_new =  weights_set.clone();
@@ -281,7 +288,7 @@ impl Simulation{
         }
     }
     pub(crate)fn reset_simulation(&mut self) -> (Vec<Vec<f64>>, Vec<f64>){
-        let mut best_unit =self.find_best_unit();
+        let best_unit =self.find_best_unit();
         for unit in self.units.iter_mut(){
             unit.cart.set_default();
             unit.pole.set_default(&unit.cart);

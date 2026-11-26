@@ -102,10 +102,11 @@ impl ScoreSystem{
             let angle = pole.radians_normal * 180.0;
             self.SSEI.by_balance = true;
             self.SSEI.by_degrees_bonus = self.SSEI.by_degrees_reward as f64 + 1.0 - angle.abs() / 100.0;
+            if pole.angle_velocity < 0.0 && cart.a > 0.0 ||  pole.angle_velocity > 0.0 && cart.a < 0.0{
+                self.SSEI.by_stopping = true
+            }
         }
-        if pole.angle_velocity < 0.0 && cart.a > 0.0 ||  pole.angle_velocity > 0.0 && cart.a < 0.0{
-            self.SSEI.by_stopping = true
-        }
+
         if cart.cartx < -200.0 || cart.cartx > 1900.0{
             self.score = 0.0;
         }
