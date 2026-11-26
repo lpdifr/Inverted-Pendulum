@@ -119,11 +119,15 @@ while not glfw.window_should_close(screen):
     glClear(GL_COLOR_BUFFER_BIT)
 
     world.dt = clock.tick(60)/1000#type:ignore
-    for unit_data in buffer:
+    for unit_data in buffer[:100]:
         glBegin(GL_QUADS)
         render.cart(unit_data[0] , 700)
         glEnd()
+        glLineWidth(7)
+        glBegin(GL_LINES)
+
         render.pole_line(unit_data[0] + 100 , 700 , unit_data[1] , unit_data[2])
+        glEnd()
         render.weight(unit_data[1] , unit_data[2])
 
     simulation.step(buffer)
