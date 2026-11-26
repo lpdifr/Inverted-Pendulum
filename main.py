@@ -4,14 +4,12 @@ from OpenGL.GL import *
 import sys
 import numpy as np
 import random
+import win32api, win32con, win32console
+import multiprocessing
 from gen_saver import SaveLoadGen
+from console_module import DeveloperConsole
 
-# Importing modules
-from pole_module import Pole
-from cart_module import Cart
-from neuralnetwork_module import NerualNetwork
-#from simulation_module import Simulation
-from units_module import Units , Unit
+
 import rust_module
 from rust_module import Simulation
 from render_module import Render
@@ -90,6 +88,10 @@ world.frame_counter = 0.083333
 
 glEnable(GL_BLEND)
 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+multiprocessing.freeze_support()
+devcon = DeveloperConsole()
+p = multiprocessing.Process(target=devcon.ShowConsole)
+p.start()
 
 
 while not glfw.window_should_close(screen):

@@ -275,7 +275,7 @@ impl Simulation{
             let mut bias_new = bias.clone();
             for weights in weights_new.iter_mut(){
                 for weight in weights{
-                    *weight += rng.random_range(-1.0..=1.0);
+                    *weight += rng.random_range(-10.0..=10.0);
                 }
             }
             for b in bias_new.iter_mut(){
