@@ -70,20 +70,19 @@ simulation.create_simulation(units_quantity ,
                                 [-9.117011746541309, 4.569619100723747, -7.344724531657647, -5.944618933983124],
 
                              ],
-                            [1.0 , 0.5 , -1.2 , -0.1]
+                             [1.0 , 0.5 , -1.2 , -0.1]
                              )
 buffer = np.zeros((units_quantity, 3), dtype=np.float64)
 
 
 # Best unit : [-9.117011746541309, 4.569619100723747, -7.344724531657647, -5.944618933983124]
-units = Units(world)
-units.CreateUnits(units_quantity , slg.LoadLastGen()['weights'] , random_change=(-10.0 , 10.0))#type:ignore
+
 render = Render()
 # Resrt flag
 if_reset = 0
 
 # Timer when reseting simulation
-max_frame = 60*1000
+max_frame = 10000
 def MiddleFPS(listoffps):
     fpssum = 0
     for fps in listoffps:
@@ -91,6 +90,7 @@ def MiddleFPS(listoffps):
     return fpssum/len(listoffps)
 showfps = 3000
 fpslist = []
+gens_created = 0
 world.frame_counter = 0.083333
 while not glfw.window_should_close(screen):
     fpslist.append(clock.get_fps())
@@ -112,8 +112,11 @@ while not glfw.window_should_close(screen):
         fpslist.clear()
         
     if frame_counter >= max_frame:
-        units.NewGen()
-        max_frame += 60*1000
+        gen = simulation.reset_simulation()
+        slg.SaveGen(gen[0] , gen[1])
+        simulation.create_simulation(units_quantity , *slg.LoadLastGen())
+        max_frame += 10000
+        gens_created += 1
     
 
     glClear(GL_COLOR_BUFFER_BIT)
@@ -137,5 +140,5 @@ while not glfw.window_should_close(screen):
 
 
 
-print(f"Generations created: {units.gens_created}")
+print(f"Generations created: {gens_created}")
 sys.exit()

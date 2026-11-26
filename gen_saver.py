@@ -1,7 +1,7 @@
 import pickle
 import os
 from datetime import datetime , date
-
+import random
 class SaveLoadGen:
     def __init__(self):
         self.last_version_ext = ".lg"
@@ -119,3 +119,14 @@ def FIX_LAST_GEN_FILE(last_working_gen):
     slg = SaveLoadGen()
     a = slg.LoadLastGen(last_working_gen)
     slg.SaveManual(a["weights"] ,a["bias"], last_working_gen + 1)
+"""slg = SaveLoadGen()
+slg.SaveManual(                             [
+                                [-9.117011746541309, 4.569619100723747, -7.344724531657647, -5.944618933983124],
+                                [-9.117011746541309, 4.569619100723747, -7.344724531657647, -5.944618933983124],
+                                [-9.117011746541309, 4.569619100723747, -7.344724531657647, -5.944618933983124],
+                                [-9.117011746541309, 4.569619100723747, -7.344724531657647, -5.944618933983124],
+
+                             ],
+                             [random.uniform(-1.0 , 1.0),random.uniform(-1.0 , 1.0),random.uniform(-1.0 , 1.0),random.uniform(-1.0 , 1.0),],
+                             595
+                             )"""
