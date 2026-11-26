@@ -56,6 +56,10 @@ struct SSEI_sys{
    
     // Setting reward bonus by degrees value
     by_degrees_bonus   : f64,
+
+    stopping_delta     : f64,
+
+    old_pole_speed     : f64
     
 }
 impl SSEI_sys{
@@ -65,6 +69,8 @@ impl SSEI_sys{
         self.by_balance       = false;
         self.by_stopping      = false;
         self.by_degrees_bonus = 0.0;
+        self.old_pole_speed   = 0.0;
+        self.stopping_delta   = 0.0;
     }
 
 
@@ -102,7 +108,9 @@ impl ScoreSystem{
             let angle = pole.radians_normal * 180.0;
             self.SSEI.by_balance = true;
             self.SSEI.by_degrees_bonus = self.SSEI.by_degrees_reward as f64 + 1.0 - angle.abs() / 100.0;
-            if pole.angle_velocity < 0.0 && cart.a > 0.0 ||  pole.angle_velocity > 0.0 && cart.a < 0.0{
+            self.SSEI.stopping_delta = pole.angle_velocity.abs() - self.SSEI.old_pole_speed.abs();
+            self.SSEI.old_pole_speed = pole.angle_velocity;
+            if self.SSEI.stopping_delta < 0.0{
                 self.SSEI.by_stopping = true
             }
         }

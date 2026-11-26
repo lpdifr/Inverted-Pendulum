@@ -1,45 +1,48 @@
-# Source - https://stackoverflow.com/q/74989696
-# Posted by Kulo, modified by community. See post 'Timeline' for change history
-# Retrieved 2026-11-26, License - CC BY-SA 4.0
 
 import sys, os
 import win32api, win32con, win32console
 import multiprocessing
 class DeveloperConsole:
     def __init__(self):
-        self.pause_com = False
-        self.continue_com = True
-        self.camerastep_com = False
+        self.quit_com = multiprocessing.Value("b" , False)
+        self.pause_com = multiprocessing.Value("b" , False)
+        self.continue_com = multiprocessing.Value("b" , True)
+        self.camerastep_com = multiprocessing.Value("b" , False)
+        self.population = 10000
+        self.render_range = multiprocessing.Array("i", [0, 100])
+        self.brandnewsim = multiprocessing.Value("b" , False)
     def ShowConsole(self):
         win32console.FreeConsole()
         win32console.AllocConsole()
         sys.stdout = open("CONOUT$", "w")
         sys.stderr = open("CONOUT$", "w")
         sys.stdin = open("CONIN$", "r")
-        print("Test")
+        print("Inverted Pendelum console\n")
         running = True
         while running:
             inp = input(">>> ")
             if inp == "quit":
+                self.quit_com.value = True
                 running = False
+                
             elif inp == "nextgen":
                 print("New generation created.")
+            
             elif inp == "pause":
-                if self.pause_com:
+                if self.pause_com.value:
                     print("Simulation already paused")
                 else:
                     print("Simulation paused")
-                    self.pause_com = True
-                    self.continue_com = False
-
+                    self.pause_com.value = True
+                    self.continue_com.value = False
 
             elif inp == "continue":
-                if self.continue_com:
+                if self.continue_com.value:
                     print("Simulation already continuing")
                 else:
                     print("Simulation continued")
-                    self.continue_com = True
-                    self.pause_com = False
+                    self.continue_com.value = True
+                    self.pause_com.value = False
 
             elif "cameranext" in inp:
                 step = inp.split()
@@ -54,7 +57,29 @@ class DeveloperConsole:
                             sectry = int(sectry)
                         except:
                             print("StepError: cameranext x <-- set num here. try again")
+            
+            elif "set" in inp:
+                if "renderrange" in inp:
+                    sp = inp.split()
+                    self.render_range[0] = int(sp[len(sp)-2])
+                    self.render_range[1] = int(sp[len(sp)-1])
+                    print(f"Render range setted on {self.render_range}")
+                if "population" in inp:
+                    sp = inp.split()
+                    self.population = int(sp[len(sp)-1])
+                    print(f"Population setted on {self.population}")
+            
+            elif inp == "brandnewsim":
+                self.brandnewsim.value = True
+                print("Creating new simulation")
             else:
                 print(f"No such command as '{inp}'")
+
             print("\n")
-        os.system("pause")
+
+if __name__ == "__main__":
+    devcon = DeveloperConsole()
+    p = multiprocessing.Process(target=devcon.ShowConsole)
+    p.start()
+    p.join()
+    print(p.exitcode)
