@@ -9,7 +9,7 @@ import multiprocessing
 from gen_saver import SaveLoadGen
 from console_module import DeveloperConsole
 
-
+import time
 import rust_module
 from rust_module import Simulation
 from render_module import Render
@@ -18,7 +18,10 @@ if __name__ == "__main__":
     p = multiprocessing.Process(target=devcon.ShowConsole)
     p.start()
     while not devcon.startsimulation.value:
-        pass
+
+        if devcon.quit_com.value:
+            sys.exit()
+        time.sleep(0.01)
     pygame.init()
 
     glfw.init()
@@ -113,6 +116,7 @@ if __name__ == "__main__":
         if devcon.brandnewsim.value:
             CreateRandomSimulation()
             simulation.reset_simulation()
+            steps = 0
             devcon.brandnewsim.value = False
         # Timer update
         if devcon.render.value:
@@ -124,7 +128,8 @@ if __name__ == "__main__":
             slg.SaveGen(*simulation.reset_simulation())
             lastgen = slg.LoadLastGen()
             simulation.create_simulation(units_quantity , lastgen["weights"] , lastgen["bias"] , 180.0)
-            max_frame += 2.5 * 60000
+            if devcon.render.value:
+                max_frame += 2.5 * 60000
             gens_created += 1
             print(steps)
         

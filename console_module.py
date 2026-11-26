@@ -70,15 +70,18 @@ class DeveloperConsole:
             
             elif "set" in inp.split():
                 if "--render" in inp.split():
-                    sp = inp.split()
-                    if sp[len(sp)-1] == "true":
-                        self.render.value = True
-                        print("Render ON")
-                    elif sp[len(sp)-1] == "false":
-                        self.render.value = False
-                        print("Render OFF")
+                    if not self.startsimulation:
+                        sp = inp.split()
+                        if sp[len(sp)-1] == "true":
+                            self.render.value = True
+                            print("Render ON")
+                        elif sp[len(sp)-1] == "false":
+                            self.render.value = False
+                            print("Render OFF")
+                        else:
+                            print(f"Unknown flag as {sp[len(sp)-1]}")
                     else:
-                        print(f"Unknown flag as {sp[len(sp)-1]}")
+                        print("You need to write '--render' before you start simulation")
                 if "--renderrange" in inp.split():
                     sp = inp.split()
                     self.render_range[0] = int(sp[len(sp)-2])
