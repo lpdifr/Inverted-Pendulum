@@ -11,6 +11,7 @@ class DeveloperConsole:
         self.population = 10000
         self.render_range = multiprocessing.Array("i", [0, 100])
         self.brandnewsim = multiprocessing.Value("b" , False)
+        self.render = multiprocessing.Value("b" , True)
         self.HelpTextPATH = "hf/help_console.txt"
     def ShowConsole(self):
         win32console.FreeConsole()
@@ -64,6 +65,14 @@ class DeveloperConsole:
                             print("StepError: cameranext x <-- set num here. try again")
             
             elif "set" in inp:
+                if "render" in inp:
+                    sp = inp.split()
+                    if sp[len(sp)-1] == "true":
+                        self.render.value = True
+                    elif sp[len(sp)-1] == "false":
+                        self.render.value = False
+                    else:
+                        print(f"Unknown flag as {sp[len(sp)-1]}")
                 if "renderrange" in inp:
                     sp = inp.split()
                     self.render_range[0] = int(sp[len(sp)-2])

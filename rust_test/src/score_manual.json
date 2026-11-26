@@ -4,7 +4,7 @@
     "MFDB":true,
     
     "by_balance_reward"      :1.0,
-    "by_stopping_reward"     :3.0,
+    "by_stopping_reward"     :0.1,
     "by_degrees_reward":1.0
 
 }

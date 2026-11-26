@@ -3425,3 +3425,138 @@ On 2026-11-26 ; In 22:13:06; Loaded generation name in NoneManualMode
 On 2026-11-26 ; In 22:13:06; Loaded last generation file in NoneManualMode
 On 2026-11-26 ; In 22:13:06; Loaded last generation file was successful in NoneManualMode
 On 2026-11-26 ; In 22:13:06; Loading last generation file was FULL successful
+
+
+
+On 2026-11-27 ; In 00:37:48; Loaded generation name in NoneManualMode
+On 2026-11-27 ; In 00:37:48; Loaded last generation file in NoneManualMode
+On 2026-11-27 ; In 00:37:48; Loaded last generation file was successful in NoneManualMode
+On 2026-11-27 ; In 00:37:48; Loading last generation file was FULL successful
+On 2026-11-27 ; In 00:37:48; Prepearing gen index...
+On 2026-11-27 ; In 00:37:48; Prepearing gen index was successful
+On 2026-11-27 ; In 00:37:48; Prepearing new gen data...
+On 2026-11-27 ; In 00:37:48; Prepearing new gen data was successful
+On 2026-11-27 ; In 00:37:48; Creating new gen data file...
+On 2026-11-27 ; In 00:37:48; Creating new gen data file was successful
+On 2026-11-27 ; In 00:37:48; Prepearing to save new gen data file...
+On 2026-11-27 ; In 00:37:48; Finished to save new gen data
+On 2026-11-27 ; In 00:37:48; New gen data file was successful closed
+On 2026-11-27 ; In 00:37:48; Prepearing to change lastgen.lg...
+On 2026-11-27 ; In 00:37:48; Changing was successful.
+On 2026-11-27 ; In 00:37:48; Prepearing to change lastgen.lg second time...
+On 2026-11-27 ; In 00:37:48; Changing was successful.
+
+
+
+On 2026-11-27 ; In 00:37:48; Loaded generation name in NoneManualMode
+On 2026-11-27 ; In 00:37:48; Loaded last generation file in NoneManualMode
+On 2026-11-27 ; In 00:37:48; Loaded last generation file was successful in NoneManualMode
+On 2026-11-27 ; In 00:37:48; Loading last generation file was FULL successful
+
+
+
+On 2026-11-27 ; In 00:47:24; Loaded generation name in NoneManualMode
+On 2026-11-27 ; In 00:47:24; Loaded last generation file in NoneManualMode
+On 2026-11-27 ; In 00:47:24; Loaded last generation file was successful in NoneManualMode
+On 2026-11-27 ; In 00:47:24; Loading last generation file was FULL successful
+On 2026-11-27 ; In 00:47:24; Prepearing gen index...
+On 2026-11-27 ; In 00:47:24; Prepearing gen index was successful
+On 2026-11-27 ; In 00:47:24; Prepearing new gen data...
+On 2026-11-27 ; In 00:47:24; Prepearing new gen data was successful
+On 2026-11-27 ; In 00:47:24; Creating new gen data file...
+On 2026-11-27 ; In 00:47:24; Creating new gen data file was successful
+On 2026-11-27 ; In 00:47:24; Prepearing to save new gen data file...
+On 2026-11-27 ; In 00:47:24; Finished to save new gen data
+On 2026-11-27 ; In 00:47:24; New gen data file was successful closed
+On 2026-11-27 ; In 00:47:24; Prepearing to change lastgen.lg...
+On 2026-11-27 ; In 00:47:24; Changing was successful.
+On 2026-11-27 ; In 00:47:24; Prepearing to change lastgen.lg second time...
+On 2026-11-27 ; In 00:47:24; Changing was successful.
+
+
+
+On 2026-11-27 ; In 00:47:24; Loaded generation name in NoneManualMode
+On 2026-11-27 ; In 00:47:24; Loaded last generation file in NoneManualMode
+On 2026-11-27 ; In 00:47:24; Loaded last generation file was successful in NoneManualMode
+On 2026-11-27 ; In 00:47:24; Loading last generation file was FULL successful
+
+
+
+On 2026-11-27 ; In 00:49:54; Loaded generation name in NoneManualMode
+On 2026-11-27 ; In 00:49:54; Loaded last generation file in NoneManualMode
+On 2026-11-27 ; In 00:49:54; Loaded last generation file was successful in NoneManualMode
+On 2026-11-27 ; In 00:49:54; Loading last generation file was FULL successful
+On 2026-11-27 ; In 00:49:54; Prepearing gen index...
+On 2026-11-27 ; In 00:49:54; Prepearing gen index was successful
+On 2026-11-27 ; In 00:49:54; Prepearing new gen data...
+On 2026-11-27 ; In 00:49:54; Prepearing new gen data was successful
+On 2026-11-27 ; In 00:49:54; Creating new gen data file...
+On 2026-11-27 ; In 00:49:54; Creating new gen data file was successful
+On 2026-11-27 ; In 00:49:54; Prepearing to save new gen data file...
+On 2026-11-27 ; In 00:49:54; Finished to save new gen data
+On 2026-11-27 ; In 00:49:54; New gen data file was successful closed
+On 2026-11-27 ; In 00:49:54; Prepearing to change lastgen.lg...
+On 2026-11-27 ; In 00:49:54; Changing was successful.
+On 2026-11-27 ; In 00:49:54; Prepearing to change lastgen.lg second time...
+On 2026-11-27 ; In 00:49:54; Changing was successful.
+
+
+
+On 2026-11-27 ; In 00:49:54; Loaded generation name in NoneManualMode
+On 2026-11-27 ; In 00:49:54; Loaded last generation file in NoneManualMode
+On 2026-11-27 ; In 00:49:54; Loaded last generation file was successful in NoneManualMode
+On 2026-11-27 ; In 00:49:54; Loading last generation file was FULL successful
+
+
+
+On 2026-11-27 ; In 00:52:24; Loaded generation name in NoneManualMode
+On 2026-11-27 ; In 00:52:24; Loaded last generation file in NoneManualMode
+On 2026-11-27 ; In 00:52:24; Loaded last generation file was successful in NoneManualMode
+On 2026-11-27 ; In 00:52:24; Loading last generation file was FULL successful
+On 2026-11-27 ; In 00:52:24; Prepearing gen index...
+On 2026-11-27 ; In 00:52:24; Prepearing gen index was successful
+On 2026-11-27 ; In 00:52:24; Prepearing new gen data...
+On 2026-11-27 ; In 00:52:24; Prepearing new gen data was successful
+On 2026-11-27 ; In 00:52:24; Creating new gen data file...
+On 2026-11-27 ; In 00:52:24; Creating new gen data file was successful
+On 2026-11-27 ; In 00:52:24; Prepearing to save new gen data file...
+On 2026-11-27 ; In 00:52:24; Finished to save new gen data
+On 2026-11-27 ; In 00:52:24; New gen data file was successful closed
+On 2026-11-27 ; In 00:52:24; Prepearing to change lastgen.lg...
+On 2026-11-27 ; In 00:52:24; Changing was successful.
+On 2026-11-27 ; In 00:52:24; Prepearing to change lastgen.lg second time...
+On 2026-11-27 ; In 00:52:24; Changing was successful.
+
+
+
+On 2026-11-27 ; In 00:52:24; Loaded generation name in NoneManualMode
+On 2026-11-27 ; In 00:52:24; Loaded last generation file in NoneManualMode
+On 2026-11-27 ; In 00:52:24; Loaded last generation file was successful in NoneManualMode
+On 2026-11-27 ; In 00:52:24; Loading last generation file was FULL successful
+
+
+
+On 2026-11-27 ; In 00:54:54; Loaded generation name in NoneManualMode
+On 2026-11-27 ; In 00:54:54; Loaded last generation file in NoneManualMode
+On 2026-11-27 ; In 00:54:54; Loaded last generation file was successful in NoneManualMode
+On 2026-11-27 ; In 00:54:54; Loading last generation file was FULL successful
+On 2026-11-27 ; In 00:54:54; Prepearing gen index...
+On 2026-11-27 ; In 00:54:54; Prepearing gen index was successful
+On 2026-11-27 ; In 00:54:54; Prepearing new gen data...
+On 2026-11-27 ; In 00:54:54; Prepearing new gen data was successful
+On 2026-11-27 ; In 00:54:54; Creating new gen data file...
+On 2026-11-27 ; In 00:54:54; Creating new gen data file was successful
+On 2026-11-27 ; In 00:54:54; Prepearing to save new gen data file...
+On 2026-11-27 ; In 00:54:54; Finished to save new gen data
+On 2026-11-27 ; In 00:54:54; New gen data file was successful closed
+On 2026-11-27 ; In 00:54:54; Prepearing to change lastgen.lg...
+On 2026-11-27 ; In 00:54:54; Changing was successful.
+On 2026-11-27 ; In 00:54:54; Prepearing to change lastgen.lg second time...
+On 2026-11-27 ; In 00:54:54; Changing was successful.
+
+
+
+On 2026-11-27 ; In 00:54:54; Loaded generation name in NoneManualMode
+On 2026-11-27 ; In 00:54:54; Loaded last generation file in NoneManualMode
+On 2026-11-27 ; In 00:54:54; Loaded last generation file was successful in NoneManualMode
+On 2026-11-27 ; In 00:54:54; Loading last generation file was FULL successful

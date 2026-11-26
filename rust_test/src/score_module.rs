@@ -59,7 +59,9 @@ struct SSEI_sys{
 
     stopping_delta     : f64,
 
-    old_pole_speed     : f64
+    old_pole_speed     : f64,
+
+    reward_timer       : i32
     
 }
 impl SSEI_sys{
@@ -69,6 +71,7 @@ impl SSEI_sys{
         self.by_balance       = false;
         self.by_stopping      = false;
         self.by_degrees_bonus = 0.0;
+
 
     }
 
@@ -100,20 +103,27 @@ impl ScoreSystem{
 
         // Normalizing values
         pole.normalize_values();
+        self.SSEI.stopping_delta = pole.angle_velocity.abs() - self.SSEI.old_pole_speed.abs();
+        self.SSEI.old_pole_speed = pole.angle_velocity;
 
         // Checking if we need to give reward
         if pole.radians_normal > -0.1 && pole.radians_normal < 0.1 {
-
-            let angle = pole.radians_normal * 180.0;
-            self.SSEI.by_balance = true;
-            self.SSEI.by_degrees_bonus = self.SSEI.by_degrees_reward as f64 + 1.0 - angle.abs() / 100.0;
-            self.SSEI.stopping_delta = pole.angle_velocity.abs() - self.SSEI.old_pole_speed.abs();
-            self.SSEI.old_pole_speed = pole.angle_velocity;
-            if self.SSEI.stopping_delta < 0.0{
-                self.SSEI.by_stopping = true
+            if self.SSEI.reward_timer > 10{
+                let angle = pole.radians_normal * 180.0;
+                self.SSEI.by_balance = true;
+                self.SSEI.by_degrees_bonus = self.SSEI.by_degrees_reward as f64 + 1.0 - angle.abs() / 100.0;
+                if self.SSEI.stopping_delta < 0.0{
+                    self.SSEI.by_stopping = true
+                }
+                self.SSEI.reward_timer = 0;
+            }
+            else {
+                self.SSEI.reward_timer += 1;
             }
         }
-
+        else {
+            self.SSEI.reward_timer = 0;
+        }
         if cart.cartx < -200.0 || cart.cartx > 1900.0{
             self.score = 0.0;
         }

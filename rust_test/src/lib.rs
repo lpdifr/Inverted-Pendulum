@@ -175,7 +175,7 @@ impl Cart {
         self.cartx = (self.world.screen.width /2.0) - (self.width  / 2.0);
         self.carty = (self.world.screen.height /2.0) + 300.0;
         self.polex = self.world.screen.width / 2.0;
-        self.poley = ((self.world.screen.height / 2.0) + 300.0) as f64;
+        self.poley = 700.0 ;
         self.velocity = 0.0;
         self.cartmass = 5.0;
         self.a = 0.0;
@@ -326,18 +326,11 @@ impl Simulation{
 
 
 
-#[pyfunction]
-fn main(weights : Vec<Vec<f64>> , bias : Vec<f64>) {
-    
-    let mut simulation = Simulation::new();
-    simulation.create_simulation(10000, weights.clone() , bias.clone());
-    
-}
 
 #[pymodule]
 fn rust_module(py: Python, m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Simulation>()?;
-    m.add_function(wrap_pyfunction!(main , m)?)?;
+
     
 
     Ok(())

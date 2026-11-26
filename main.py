@@ -54,7 +54,7 @@ if __name__ == "__main__":
     # MainLoop variables
     running = True
     clock = pygame.time.Clock()
-
+    steps = 0
 
     units_quantity = 10000
     # Inicialization Systems
@@ -70,6 +70,7 @@ if __name__ == "__main__":
 
                                     ],
                                     [random.uniform(-10.0 , 10.0), random.uniform(-10.0 , 10.0), random.uniform(-10.0 , 10.0), random.uniform(-10.0 , 10.0)],
+                                    start_angle
                                     )
     CreateRandomSimulation(5.0)
     buffer = np.zeros((units_quantity, 3), dtype=np.float64)
@@ -108,13 +109,14 @@ if __name__ == "__main__":
         frame_counter = pygame.time.get_ticks()
 
             
-        if frame_counter >= max_frame:
-            
+        if steps > 18000:
+            steps = 0
             slg.SaveGen(*simulation.reset_simulation())
             lastgen = slg.LoadLastGen()
-            simulation.create_simulation(units_quantity , lastgen["weights"] , lastgen["bias"])
+            simulation.create_simulation(units_quantity , lastgen["weights"] , lastgen["bias"] , 0.0)
             max_frame += 2.5 * 60000
             gens_created += 1
+            print(steps)
         
         # Screen Clear
         glClear(GL_COLOR_BUFFER_BIT)
@@ -135,6 +137,7 @@ if __name__ == "__main__":
 
         if not devcon.pause_com.value:
             simulation.step(buffer)
+            steps += 1
 
 
         glfw.swap_buffers(screen)
