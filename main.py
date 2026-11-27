@@ -84,7 +84,11 @@ if __name__ == "__main__":
                                     [random.uniform(-10.0 , 10.0), random.uniform(-10.0 , 10.0), random.uniform(-10.0 , 10.0), random.uniform(-10.0 , 10.0)],
                                     start_angle
                                     )
-    CreateRandomSimulation(5.0)
+    def LoadLastSimulation():
+        #CreateRandomSimulation(5.0)
+        lg =  slg.LoadLastGen()
+        simulation.create_simulation(units_quantity ,lg["weights"] , lg["bias"] , 180)
+    LoadLastSimulation()
     buffer = np.zeros((units_quantity, 3), dtype=np.float64)
 
 

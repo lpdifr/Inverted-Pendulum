@@ -114,6 +114,12 @@ class SaveLoadGen:
         pickle.dump(raw_data , raw_gen)
         last_gen_file.close()
         raw_gen.close()
+    def SaveLGManual(self , gen):
+        last_gen_file = open(self.save_folder+"/"+"lastgen.lg" , "wb")
+        raw_name = "gen_" + str(gen)
+        pickle.dump(raw_name , last_gen_file)
+
+        last_gen_file.close()
 
 def FIX_LAST_GEN_FILE(last_working_gen):
     slg = SaveLoadGen()
@@ -121,13 +127,4 @@ def FIX_LAST_GEN_FILE(last_working_gen):
     slg.SaveManual(a["weights"] ,a["bias"], last_working_gen + 1)
 if __name__ == "__main__":
     slg = SaveLoadGen()
-    slg.SaveManual(                             [
-                                    [-9.117011746541309, 4.569619100723747, -7.344724531657647, -5.944618933983124],
-                                    [-9.117011746541309, 4.569619100723747, -7.344724531657647, -5.944618933983124],
-                                    [-9.117011746541309, 4.569619100723747, -7.344724531657647, -5.944618933983124],
-                                    [-9.117011746541309, 4.569619100723747, -7.344724531657647, -5.944618933983124],
-
-                                ],
-                                [random.uniform(-1.0 , 1.0),random.uniform(-1.0 , 1.0),random.uniform(-1.0 , 1.0),random.uniform(-1.0 , 1.0),],
-                                595
-                                )
+    slg.SaveLGManual(789)

@@ -214,7 +214,7 @@ impl Unit{
 
         self.nn.get_variables(self.cart.cartx, self.cart.velocity, self.pole.angle, self.pole.angle_velocity);
         self.nn.normalize_values();
-        self.cart.force = self.nn.calculate_action().clone() * 3000.0;
+        self.cart.force = self.nn.calculate_action().clone() * -3000.0;
 
         self.calculate_phisics();
         self.score.check_situation(&mut self.cart, &mut self.pole);
@@ -276,7 +276,7 @@ impl Simulation{
             let mut bias_new = bias.clone();
             for weights in weights_new.iter_mut(){
                 for weight in weights{
-                    *weight += rng.random_range(-10.0..=10.0);
+                    *weight += rng.random_range(-1.0..=1.0);
                 }
             }
             for b in bias_new.iter_mut(){

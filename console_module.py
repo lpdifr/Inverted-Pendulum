@@ -27,6 +27,7 @@ class DeveloperConsole:
             inp = input(">>> ")
             if inp == "start_simulation":
                 self.startsimulation.value = True
+                print("Simulation starting in 3...\nSimulation starting in 2...\nSimulation starting in 1...")
             elif inp == "quit":
                 self.quit_com.value = True
                 running = False
@@ -70,7 +71,7 @@ class DeveloperConsole:
             
             elif "set" in inp.split():
                 if "--render" in inp.split():
-                    if not self.startsimulation:
+                    if not self.startsimulation.value:
                         sp = inp.split()
                         if sp[len(sp)-1] == "true":
                             self.render.value = True
